@@ -1,0 +1,174 @@
+\subsection{Definição do BOUNDED CONTEXT: DBFFieldManagement}
+O \textbf{DBFFieldManagement} é responsável por gerenciar a estrutura dos campos (\textbf{DBFField}) dentro de um arquivo \textbf{.DBF}, permitindo \textbf{adição, modificação e remoção} de campos.
+
+Os campos (\textbf{DBFField}) definem a estrutura do \textbf{.DBF}, ou seja, quais informações podem ser armazenadas nos registros (\textbf{DBFRecord}). Como o formato \textbf{.DBF} possui alinhamento fixo, \textbf{qualquer modificação nos campos exige a remoção de todos os registros (\textbf{DBFRecord}) existentes}, pois os dados podem ficar desalinhados e ilegíveis para outros sistemas.
+
+\textbf{Esse contexto não gerencia registros (\textbf{DBFRecord})}, pois essa responsabilidade pertence ao \textbf{DBFRecordManagement}.
+
+\subsection{Como Esse Contexto Será Implementado?}
+O \textbf{DBFFieldManagement} será implementado como um conjunto de operações dentro do \textbf{DBFFile} (Aggregate Root). Ele permitirá modificar a estrutura dos campos (\textbf{DBFField}), garantindo que as mudanças respeitem as regras do \textbf{.DBF} e que os registros (\textbf{DBFRecord}) sejam excluídos automaticamente quando necessário.
+
+\textbf{IMPORTANTE:} 
+\begin{itemize}
+    \item Qualquer \textbf{adição, modificação ou remoção de um DBFField} exige a \textbf{recriação da estrutura do .DBF}, pois os registros (\textbf{DBFRecord}) dependem diretamente dos campos.
+    \item Após qualquer alteração estrutural, \textbf{todos os registros (\textbf{DBFRecord}) serão apagados automaticamente} para evitar inconsistências.
+\end{itemize}
+
+\subsection{Responsabilidades do DBFFieldManagement}
+\begin{itemize}
+    \item Adicionar um novo campo (\textbf{DBFField}) sem comprometer a estrutura do \textbf{.DBF}.
+    \item Modificar um campo (\textbf{DBFField}) garantindo que a alteração respeite as regras do formato.
+    \item Remover um campo (\textbf{DBFField}) e garantir que a estrutura permaneça válida.
+    \item Assegurar que todas as modificações passem por validação (\textbf{DBFValidation}) antes de serem aplicadas.
+    \item Atualizar metadados do \textbf{DBFHeader} (ex: \textbf{recordCount}) para refletir mudanças na estrutura.
+    \item Garantir que qualquer modificação nos campos (\textbf{DBFField}) resulte na remoção automática dos registros (\textbf{DBFRecord}).
+\end{itemize}
+
+\subsection{Tipos de Dados no DBFFieldManagement}
+O \textbf{DBFFieldManagement} lida diretamente com os seguintes componentes:
+
+\subsubsection{DBFFile (Aggregate Root)}
+\textbf{Descrição:} O \textbf{DBFFile} encapsula toda a estrutura do \textbf{.DBF}, incluindo os campos (\textbf{List<DBFField>}) e registros (\textbf{List<DBFRecord>}).
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{10cm}|}
+        \hline
+        \textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\ \hline
+        \textbf{header} & DBFHeader & Contém metadados do \textbf{.DBF} (versão, data, contagem de registros). \\ \hline
+        \textbf{fields} & List<DBFField> & Contém todos os campos do \textbf{.DBF}. \\ \hline
+        \textbf{records} & List<DBFRecord> & Contém todos os registros armazenados. \\ \hline
+        \textbf{recordSize} & number & Define o tamanho fixo de cada registro. \\ \hline
+    \end{tabular}
+\end{table}
+
+\textbf{Regras de Negócio:}
+\begin{enumerate}
+    \item O \textbf{.DBF} deve ter pelo menos um \textbf{DBFField} para ser válido.
+    \item Qualquer alteração em \textbf{DBFField} deve apagar todos os \textbf{DBFRecord} para evitar registros desalinhados.
+    \item O \textbf{recordSize} deve ser recalculado sempre que um campo for adicionado, alterado ou removido.
+\end{enumerate}
+
+\subsubsection{DBFField}
+\textbf{Descrição:} Cada \textbf{DBFField} representa uma coluna dentro do \textbf{.DBF}, definindo o nome, tipo, tamanho e alinhamento dos dados.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|p{10cm}|}
+        \hline
+        \textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\ \hline
+        \textbf{name} & string & Nome do campo (máx. 10 caracteres). \\ \hline
+        \textbf{type} & enum & Define o tipo de dado armazenado. \\ \hline
+        \textbf{size} & number & Tamanho do campo em bytes. \\ \hline
+        \textbf{decimal} & number & Número de casas decimais (apenas para \textbf{N}). \\ \hline
+        \textbf{isRemoved} & boolean & Indica se o campo foi marcado como "removido". \\ \hline
+    \end{tabular}
+\end{table}
+
+\textbf{Regras de Negócio:}
+\begin{enumerate}
+    \item O nome do campo não pode exceder 10 caracteres.
+    \item O tipo do campo deve ser válido (\textbf{C, N, F, L, D}).
+    \item Se o campo for do tipo \textbf{Numérico (N)}, deve validar casas decimais (mín. 1, máx. 19 bytes).
+    \item Se um campo for removido (\textbf{isRemoved}), ele não pode mais ser usado em novos registros.
+\end{enumerate}
+
+\subsection{Relação do DBFFieldManagement com Outros Contextos}
+
+\subsubsection{DBFFileDefinition}
+\textbf{Tipo de Relação:} \textbf{Shared Kernel} \\
+\textbf{Descrição:} O \textbf{DBFFileDefinition} define a estrutura inicial do \textbf{.DBF}, enquanto o \textbf{DBFFieldManagement} permite modificá-la. Como ambos compartilham o mesmo \textbf{DBFFile}, mudanças devem ser feitas com \textbf{validação rigorosa}.
+
+\subsubsection{DBFRecordManagement}
+\textbf{Tipo de Relação:} \textbf{Customer/Supplier} \\
+\textbf{Descrição:} Como os registros (\textbf{DBFRecord}) dependem dos campos (\textbf{DBFField}), qualquer modificação estrutural exige que todos os registros sejam apagados.
+
+\subsubsection{DBFValidation}
+\textbf{Tipo de Relação:} \textbf{Open-Host Service} \\
+\textbf{Descrição:} Sempre que um campo (\textbf{DBFField}) for \textbf{adicionado, alterado ou removido}, o \textbf{DBFValidation} deve garantir que a estrutura do \textbf{.DBF} permaneça válida.
+
+\subsubsection{DBFExport}
+\textbf{Tipo de Relação:} \textbf{Published Language} \\
+\textbf{Descrição:} O \textbf{DBFFieldManagement} define a estrutura do \textbf{.DBF}, garantindo que ele possa ser corretamente exportado pelo \textbf{DBFExport}.
+
+\subsection{Conclusão}
+O \textbf{DBFFieldManagement} desempenha um papel crucial dentro do \textbf{DBFStructure}, pois permite modificar a estrutura do \textbf{.DBF} sem comprometer sua integridade. Ele \textbf{não gerencia registros (\textbf{DBFRecord})}, mas garante que qualquer mudança nos campos (\textbf{DBFField}) seja segura e validada.
+
+\subsubsection{Scenario: Adicionar um novo campo (`DBFField`) ao `.DBF`}
+\textbf{Given} que o sistema possui um `DBFFile` válido com uma `List<DBFField>` existente \\
+\textbf{When} o usuário solicita a adição de um novo `DBFField` \\
+\textbf{Then} o sistema deve validar se o nome do campo não excede 10 caracteres \\
+\textbf{And} o sistema deve validar se o tipo (`type`) do campo pertence ao conjunto permitido `{C, N, F, L, D}` \\
+\textbf{And} o sistema deve validar que o nome do campo não está duplicado na `List<DBFField>` \\
+\textbf{And} o sistema adiciona o novo `DBFField` à `List<DBFField>` \\
+\textbf{And} o sistema remove todos os registros (`DBFRecord`) do `DBFFile` para evitar inconsistências \\
+\textbf{And} o sistema atualiza o `DBFFile` e chama a validação (`DBFValidation`) \\
+\textbf{And} o sistema retorna o `DBFFile` atualizado \\
+
+\textbf{Scenario: Falha ao adicionar um campo com nome inválido}
+\textbf{Given} que o usuário tenta adicionar um `DBFField` com um nome maior que 10 caracteres \\
+\textbf{When} o sistema valida o nome do campo \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O nome do campo não pode exceder 10 caracteres"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\
+
+\textbf{Scenario: Falha ao adicionar um campo com tipo inválido}
+\textbf{Given} que o usuário tenta adicionar um `DBFField` com um tipo não suportado (`M`) \\
+\textbf{When} o sistema valida o tipo do campo \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O tipo 'M' não é suportado pelo formato dBase III"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\
+
+\textbf{Scenario: Falha ao adicionar um campo duplicado}
+\textbf{Given} que já existe um `DBFField` chamado `"Nome"` na `List<DBFField>` \\
+\textbf{When} o usuário tenta adicionar um novo `DBFField` com o mesmo nome `"Nome"` \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O nome do campo já existe na estrutura do .DBF"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\
+
+\subsubsection{Scenario: Modificar um campo (`DBFField`) existente}
+\textbf{Given} que o `DBFFile` contém um campo chamado `"Idade"` na `List<DBFField>` \\
+\textbf{When} o usuário solicita a modificação do campo `"Idade"` \\
+\textbf{Then} o sistema deve validar que o campo existe na `List<DBFField>` \\
+\textbf{And} o sistema deve validar se o novo nome não excede 10 caracteres \\
+\textbf{And} o sistema deve validar se o novo tipo (`type`) pertence ao conjunto permitido `{C, N, F, L, D}` \\
+\textbf{And} o sistema deve atualizar o `DBFField` na `List<DBFField>` \\
+\textbf{And} o sistema remove todos os registros (`DBFRecord`) do `DBFFile` para evitar inconsistências \\
+\textbf{And} o sistema atualiza o `DBFFile` e chama a validação (`DBFValidation`) \\
+\textbf{And} o sistema retorna o `DBFFile` atualizado \\
+
+\textbf{Scenario: Falha ao modificar um campo inexistente}
+\textbf{Given} que o `DBFFile` não contém um campo chamado `"Altura"` na `List<DBFField>` \\
+\textbf{When} o usuário tenta modificar o campo `"Altura"` \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O campo 'Altura' não existe no .DBF"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\
+
+\textbf{Scenario: Falha ao modificar um campo para um nome inválido}
+\textbf{Given} que o usuário solicita a alteração do campo `"Peso"` para `"PesoMuitoGrandeDemais"` \\
+\textbf{When} o sistema valida o novo nome do campo \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O nome do campo não pode exceder 10 caracteres"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\
+
+\textbf{Scenario: Falha ao modificar um campo para um tipo inválido}
+\textbf{Given} que o usuário solicita a alteração do tipo do campo `"Altura"` para `"M"` (Memo) \\
+\textbf{When} o sistema valida o novo tipo do campo \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O tipo 'M' não é suportado pelo formato dBase III"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\
+
+\subsubsection{Scenario: Remover um campo (`DBFField`) do `.DBF`}
+\textbf{Given} que o `DBFFile` contém um campo chamado `"Idade"` na `List<DBFField>` \\
+\textbf{When} o usuário solicita a remoção do campo `"Idade"` \\
+\textbf{Then} o sistema deve validar que o campo existe na `List<DBFField>` \\
+\textbf{And} o sistema deve remover o campo `"Idade"` da `List<DBFField>` \\
+\textbf{And} o sistema remove todos os registros (`DBFRecord`) do `DBFFile` para evitar inconsistências \\
+\textbf{And} o sistema atualiza o `DBFFile` e chama a validação (`DBFValidation`) \\
+\textbf{And} o sistema retorna o `DBFFile` atualizado \\
+
+\textbf{Scenario: Falha ao remover um campo inexistente}
+\textbf{Given} que o `DBFFile` não contém um campo chamado `"Altura"` na `List<DBFField>` \\
+\textbf{When} o usuário tenta remover o campo `"Altura"` \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O campo 'Altura' não existe no .DBF"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\
+
+\textbf{Scenario: Falha ao remover todos os campos do `.DBF`}
+\textbf{Given} que o `DBFFile` contém apenas um campo na `List<DBFField>` \\
+\textbf{When} o usuário tenta remover esse único campo \\
+\textbf{Then} o sistema deve lançar um erro `"Erro: O .DBF deve conter pelo menos um campo"` \\
+\textbf{And} o sistema não deve modificar a `List<DBFField>` \\

@@ -1,0 +1,46 @@
+enum GameMode {
+  CASUAL
+  RANKED
+  BATTLE_ROYALE
+}
+
+enum GameState {
+  WAITING_FOR_PLAYERS
+  IN_PROGRESS
+  FINISHED
+  CANCELED
+}
+
+enum GuessType {
+  SONG
+  ARTIST
+  BOTH
+}
+
+enum RoomVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum RoomType {
+  PUBLIC
+  PRIVATE
+}
+
+enum RoomStatus {
+  WAITING
+  FULL
+  GAME_IN_PROGRESS
+}
+
+enum GamePlayerState {
+  READY
+  WAITING
+  KICKED
+  DISCONNECTED
+}
+
+enum RankingMode {
+  NORMAL
+  RANKED
+}

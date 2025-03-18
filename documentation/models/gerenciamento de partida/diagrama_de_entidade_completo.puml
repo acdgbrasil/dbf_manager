@@ -1,0 +1,136 @@
+@startuml
+hide methods
+
+class Game <<Entidade>> {
+  - id: UUID <<Identificador único da partida>>
+  - game_mode: GameMode <<Modo de jogo (Casual, Ranqueado, Battle Royale)>>
+  - settings: GameSettings <<Configurações da partida>>
+  - state: GameState <<Estado atual da partida>>
+  - players: GamePlayer<<Jogadores participantes da partida>>
+  - rounds: Round<<Rodadas jogadas na partida>>
+  - ranking: GameRanking <<Ranking final da partida>>
+  - creation_date: Date <<Data e hora de criação da partida>>
+  - start_date: Date <<Data e hora de início da partida>>
+  - end_date: Date <<Data e hora de término da partida>>
+}
+
+class Room <<Entidade>> {
+  - id: UUID <<Identificador único da sala>>
+  - name: string <<Nome da sala>>
+  - owner_id: UUID <<ID do jogador que criou a sala>>
+  - players: Player<<Jogadores na sala>>
+  - game_settings: GameSettings <<Configurações da partida para a sala>>
+  - room_type: RoomType <<Tipo de sala (Pública, Privada)>>
+  - max_players: int <<Número máximo de jogadores permitido>>
+  - invitation_code: string <<Código de convite (para salas privadas)>>
+  - status: RoomStatus <<Estado atual da sala>>
+}
+
+class GamePlayer <<Entidade>> {
+  - player_id: UUID <<ID do jogador na partida>>
+  - score: int <<Pontuação do jogador na partida>>
+  - answers: Answer<<Respostas do jogador na partida>>
+  - lives: int <<Vidas restantes do jogador (Battle Royale)>>
+  - average_answer_time: Time <<Tempo médio de resposta>>
+  - state: GamePlayerState <<Estado do jogador na partida>>
+}
+
+class Player <<Entidade>> {
+  - id: UUID <<Identificador único do jogador>>
+  - name: string <<Nome do jogador>>
+}
+
+class Round <<Entidade>> {
+  - id: UUID <<Identificador único da rodada>>
+  - number: int <<Número da rodada>>
+  - song: Song <<Música tocada na rodada>>
+  - answers: Answer<<Respostas dadas na rodada>>
+}
+
+class Answer <<Entidade>> {
+  - id: UUID <<Identificador único da resposta>>
+  - content: string <<Conteúdo da resposta>>
+  - time: int <<Tempo gasto para responder>>
+  - correct: boolean <<Se a resposta está correta>>
+}
+
+object GameSettings <<Objeto de Valor>> {
+  - guess_type: GuessType <<Tipo de acerto (Música, Artista, Ambos)>>
+  - number_of_rounds: int <<Número de rodadas>>
+  - answer_time_limit: int <<Tempo limite para resposta>>
+  - playlist: Playlist<<Playlists usadas na partida>>
+  - visibility: RoomVisibility <<Visibilidade da sala (Pública, Privada)>>
+}
+
+object GameRanking <<Objeto de Valor>> {
+  - ranked_players: GamePlayer<<Jogadores ordenados por pontuação>>
+  - winner_id: UUID <<ID do vencedor>>
+  - ranking_mode: RankingMode <<Modo de ranking (Normal, Ranqueado)>>
+  - elo_changes: ELOChange<<Mudanças de ELO (Modo Ranqueado)>>
+}
+
+object Time <<Objeto de Valor>> {
+  - seconds: int <<Tempo em segundos>>
+}
+
+object ELOChange <<Objeto de Valor>> {
+  - player_id: UUID <<ID do jogador>>
+  - game_id: UUID <<ID da partida>>
+  - change_date: Date <<Data da mudança de ELO>>
+  - points_changed: int <<Pontos de ELO alterados>>
+}
+
+Game --> "1" Room : pertence a
+Game --> "*" Round : possui
+Game --> "*" GamePlayer : tem
+GamePlayer --> "1" Player : referencia
+Room --> "*" Player : contem
+
+enum GameMode {
+  CASUAL
+  RANKED
+  BATTLE_ROYALE
+}
+
+enum GameState {
+  WAITING_FOR_PLAYERS
+  IN_PROGRESS
+  FINISHED
+  CANCELED
+}
+
+enum GuessType {
+  SONG
+  ARTIST
+  BOTH
+}
+
+enum RoomVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum RoomType {
+  PUBLIC
+  PRIVATE
+}
+
+enum RoomStatus {
+  WAITING
+  FULL
+  GAME_IN_PROGRESS
+}
+
+enum GamePlayerState {
+  READY
+  WAITING
+  KICKED
+  DISCONNECTED
+}
+
+enum RankingMode {
+  NORMAL
+  RANKED
+}
+
+@enduml

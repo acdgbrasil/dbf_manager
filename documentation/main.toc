@@ -1,0 +1,77 @@
+\contentsline {section}{\numberline {1}Contexto do Sistema}{1}{section.1}%
+\contentsline {subsubsection}{\numberline {1.0.1}O que é um arquivo .DBF?}{1}{subsubsection.1.0.1}%
+\contentsline {subsubsection}{\numberline {1.0.2}Características do Formato .DBF}{1}{subsubsection.1.0.2}%
+\contentsline {subsubsection}{\numberline {1.0.3}Exemplos de Sistemas Governamentais que Utilizam .DBF}{2}{subsubsection.1.0.3}%
+\contentsline {subsubsection}{\numberline {1.0.4}Por Que o Governo Brasileiro Ainda Utiliza .DBF?}{2}{subsubsection.1.0.4}%
+\contentsline {subsubsection}{\numberline {1.0.5}Motivação para o Uso de JavaScript/Bun}{3}{subsubsection.1.0.5}%
+\contentsline {subsubsection}{\numberline {1.0.6}Justificativa para a Escolha de Bun}{4}{subsubsection.1.0.6}%
+\contentsline {subsection}{\numberline {1.1}Arquitetura do Sistema}{5}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}CORE DOMAIN - DBFStructure}{5}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Objetivos}{7}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Futuros Objetivos}{7}{subsubsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.3}Bounded Context}{1}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Definição do BOUNDED CONTEXT: DBFFileDefinition}{1}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Organização do DBFFileDefinition}{3}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Como Esse Contexto Será Implementado?}{3}{subsection.1.6}%
+\contentsline {subsubsection}{\numberline {1.6.1}Tarefas Principais do DBFFileDefinition}{3}{subsubsection.1.6.1}%
+\contentsline {subsubsection}{\numberline {1.6.2}Tipos de dados do DBFFileDefinition}{4}{subsubsection.1.6.2}%
+\contentsline {subsubsection}{\numberline {1.6.3}Informações gerais do DBFFile}{4}{subsubsection.1.6.3}%
+\contentsline {subsubsection}{\numberline {1.6.4}Metodos que estão dentro do DBFFile}{4}{subsubsection.1.6.4}%
+\contentsline {subsubsection}{\numberline {1.6.5}Informações Gerais do DBFField}{5}{subsubsection.1.6.5}%
+\contentsline {subsubsection}{\numberline {1.6.6}Metodos que estão dentro do DBFFile}{6}{subsubsection.1.6.6}%
+\contentsline {subsubsection}{\numberline {1.6.7}Informações Gerais do DBFHeader}{6}{subsubsection.1.6.7}%
+\contentsline {subsubsection}{\numberline {1.6.8}Atributos do DBFHeader}{6}{subsubsection.1.6.8}%
+\contentsline {subsubsection}{\numberline {1.6.9}Regras de negócio do DBFHeader}{7}{subsubsection.1.6.9}%
+\contentsline {subsection}{\numberline {1.7}Diagrama de Classes do DBFFileDefinition}{8}{subsection.1.7}%
+\contentsline {subsection}{\numberline {1.8}BDD do caso de uso: CreateDBFFileBaseV3}{8}{subsection.1.8}%
+\contentsline {subsubsection}{\numberline {1.8.1}Feature: Criar um objeto DBFFile válido}{8}{subsubsection.1.8.1}%
+\contentsline {subsubsection}{\numberline {1.8.2}Background}{9}{subsubsection.1.8.2}%
+\contentsline {subsubsection}{\numberline {1.8.3}Scenario: Criar um objeto DBFFile com campos e registros válidos}{9}{subsubsection.1.8.3}%
+\contentsline {subsubsection}{\numberline {1.8.4}Scenario: Criar um DBFFile sem registros iniciais}{9}{subsubsection.1.8.4}%
+\contentsline {subsubsection}{\numberline {1.8.5}Scenario: Falha ao criar o DBFHeader}{9}{subsubsection.1.8.5}%
+\contentsline {subsubsection}{\numberline {1.8.6}Scenario: Falha ao inicializar a lista de campos (`DBFField`)}{10}{subsubsection.1.8.6}%
+\contentsline {subsubsection}{\numberline {1.8.7}Scenario: Falha ao inicializar a lista de registros (`DBFRecord`)}{10}{subsubsection.1.8.7}%
+\contentsline {subsubsection}{\numberline {1.8.8}Scenario: Falha ao definir a versão do `.DBF`}{10}{subsubsection.1.8.8}%
+\contentsline {subsubsection}{\numberline {1.8.9}Scenario: Falha ao definir a data da última modificação}{10}{subsubsection.1.8.9}%
+\contentsline {subsubsection}{\numberline {1.8.10}Scenario: Falha ao calcular o offset do primeiro registro}{11}{subsubsection.1.8.10}%
+\contentsline {subsection}{\numberline {1.9}Definição do BOUNDED CONTEXT: DBFFieldManagement}{11}{subsection.1.9}%
+\contentsline {subsection}{\numberline {1.10}Como Esse Contexto Será Implementado?}{11}{subsection.1.10}%
+\contentsline {subsection}{\numberline {1.11}Responsabilidades do DBFFieldManagement}{12}{subsection.1.11}%
+\contentsline {subsection}{\numberline {1.12}Tipos de Dados no DBFFieldManagement}{12}{subsection.1.12}%
+\contentsline {subsubsection}{\numberline {1.12.1}DBFFile (Aggregate Root)}{12}{subsubsection.1.12.1}%
+\contentsline {subsubsection}{\numberline {1.12.2}DBFField}{13}{subsubsection.1.12.2}%
+\contentsline {subsection}{\numberline {1.13}Relação do DBFFieldManagement com Outros Contextos}{13}{subsection.1.13}%
+\contentsline {subsubsection}{\numberline {1.13.1}DBFFileDefinition}{13}{subsubsection.1.13.1}%
+\contentsline {subsubsection}{\numberline {1.13.2}DBFRecordManagement}{13}{subsubsection.1.13.2}%
+\contentsline {subsubsection}{\numberline {1.13.3}DBFValidation}{14}{subsubsection.1.13.3}%
+\contentsline {subsubsection}{\numberline {1.13.4}DBFExport}{14}{subsubsection.1.13.4}%
+\contentsline {subsection}{\numberline {1.14}Conclusão}{14}{subsection.1.14}%
+\contentsline {subsubsection}{\numberline {1.14.1}Scenario: Adicionar um novo campo (`DBFField`) ao `.DBF`}{14}{subsubsection.1.14.1}%
+\contentsline {subsubsection}{\numberline {1.14.2}Scenario: Modificar um campo (`DBFField`) existente}{15}{subsubsection.1.14.2}%
+\contentsline {subsubsection}{\numberline {1.14.3}Scenario: Remover um campo (`DBFField`) do `.DBF`}{16}{subsubsection.1.14.3}%
+\contentsline {subsection}{\numberline {1.15}Definição do BOUNDED CONTEXT: DBFRecordManagement}{17}{subsection.1.15}%
+\contentsline {subsubsection}{\numberline {1.15.1}Como Esse Contexto Será Implementado?}{17}{subsubsection.1.15.1}%
+\contentsline {subsubsection}{\numberline {1.15.2}Organização do DBFRecordManagement}{18}{subsubsection.1.15.2}%
+\contentsline {subsubsection}{\numberline {1.15.3}Quais São as Responsabilidades Deste Contexto?}{18}{subsubsection.1.15.3}%
+\contentsline {subsubsection}{\numberline {1.15.4}O Que Esse Contexto NÃO Faz?}{19}{subsubsection.1.15.4}%
+\contentsline {subsubsection}{\numberline {1.15.5}Relação do DBFRecordManagement com Outros Contextos}{19}{subsubsection.1.15.5}%
+\contentsline {subsubsection}{\numberline {1.15.6}Scenario: Criar um novo DBFRecord com valores válidos}{19}{subsubsection.1.15.6}%
+\contentsline {subsubsection}{\numberline {1.15.7}Scenario: Falha ao criar um DBFRecord com valores inválidos}{20}{subsubsection.1.15.7}%
+\contentsline {subsubsection}{\numberline {1.15.8}Scenario: Falha ao criar um DBFRecord que excede `recordSize`}{20}{subsubsection.1.15.8}%
+\contentsline {subsubsection}{\numberline {1.15.9}Scenario: Atualizar um DBFRecord com valores válidos}{20}{subsubsection.1.15.9}%
+\contentsline {subsubsection}{\numberline {1.15.10}Scenario: Falha ao atualizar um DBFRecord inexistente}{21}{subsubsection.1.15.10}%
+\contentsline {subsubsection}{\numberline {1.15.11}Scenario: Falha ao atualizar um DBFRecord com valores inválidos}{21}{subsubsection.1.15.11}%
+\contentsline {subsubsection}{\numberline {1.15.12}Scenario: Falha ao atualizar um DBFRecord que ultrapassa `recordSize`}{21}{subsubsection.1.15.12}%
+\contentsline {subsubsection}{\numberline {1.15.13}Scenario: Remover um DBFRecord existente}{22}{subsubsection.1.15.13}%
+\contentsline {subsubsection}{\numberline {1.15.14}Scenario: Falha ao remover um DBFRecord inexistente}{22}{subsubsection.1.15.14}%
+\contentsline {subsubsection}{\numberline {1.15.15}Scenario: Falha ao remover um DBFRecord em um DBF vazio}{22}{subsubsection.1.15.15}%
+\contentsline {subsubsection}{\numberline {1.15.16}Scenario: Remover todos os registros de um DBFFile}{22}{subsubsection.1.15.16}%
+\contentsline {subsubsection}{\numberline {1.15.17}Scenario: Buscar um DBFRecord existente pelo identificador}{22}{subsubsection.1.15.17}%
+\contentsline {subsubsection}{\numberline {1.15.18}Scenario: Falha ao buscar um DBFRecord inexistente}{23}{subsubsection.1.15.18}%
+\contentsline {subsubsection}{\numberline {1.15.19}Scenario: Buscar um DBFRecord marcado como excluído}{23}{subsubsection.1.15.19}%
+\contentsline {subsubsection}{\numberline {1.15.20}Scenario: Buscar todos os DBFRecords de um DBFFile}{23}{subsubsection.1.15.20}%
+\contentsline {subsubsection}{\numberline {1.15.21}Scenario: Falha ao buscar registros em um DBFFile vazio}{23}{subsubsection.1.15.21}%
+\contentsline {subsubsection}{\numberline {1.15.22}Scenario: Restaurar um DBFRecord excluído}{23}{subsubsection.1.15.22}%
+\contentsline {subsubsection}{\numberline {1.15.23}Scenario: Falha ao restaurar um DBFRecord inexistente}{24}{subsubsection.1.15.23}%
+\contentsline {subsubsection}{\numberline {1.15.24}Scenario: Falha ao restaurar um DBFRecord que não está excluído}{24}{subsubsection.1.15.24}%
+\contentsline {subsubsection}{\numberline {1.15.25}Scenario: Falha ao restaurar registros quando o DBFFile está vazio}{24}{subsubsection.1.15.25}%

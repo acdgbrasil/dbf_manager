@@ -1,0 +1,25 @@
+object GameSettings <<Objeto de Valor>> {
+  - guess_type: GuessType <<Tipo de acerto (M�sica, Artista, Ambos)>>
+  - number_of_rounds: int <<N�mero de rodadas>>
+  - answer_time_limit: int <<Tempo limite para resposta>>
+  - playlist: Playlist<<Playlists usadas na partida>>
+  - visibility: RoomVisibility <<Visibilidade da sala (P�blica, Privada)>>
+}
+
+object GameRanking <<Objeto de Valor>> {
+  - ranked_players: GamePlayer<<Jogadores ordenados por pontua��o>>
+  - winner_id: UUID <<ID do vencedor>>
+  - ranking_mode: RankingMode <<Modo de ranking (Normal, Ranqueado)>>
+  - elo_changes: ELOChange<<Mudan�as de ELO (Modo Ranqueado)>>
+}
+
+object Time <<Objeto de Valor>> {
+  - seconds: int <<Tempo em segundos>>
+}
+
+object ELOChange <<Objeto de Valor>> {
+  - player_id: UUID <<ID do jogador>>
+  - game_id: UUID <<ID da partida>>
+  - change_date: Date <<Data da mudan�a de ELO>>
+  - points_changed: int <<Pontos de ELO alterados>>
+}

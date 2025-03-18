@@ -1,0 +1,234 @@
+\subsection{Definição do BOUNDED CONTEXT: DBFRecordManagement}
+
+O `DBFRecordManagement` é o contexto responsável pela manipulação de registros (`DBFRecord`) dentro de um arquivo `.DBF`. Esse contexto garante que as operações de inserção, modificação, remoção e recuperação de registros sejam realizadas de maneira segura e compatível com as restrições impostas pelo formato `dBase III (0x03)`. 
+
+No formato `.DBF`, os registros armazenam valores que seguem a estrutura definida pelos campos (`DBFField`). Cada registro (`DBFRecord`) deve obedecer ao tamanho fixo de registro (`recordSize`) e manter consistência com os metadados definidos no cabeçalho (`DBFHeader`). Além disso, a remoção de registros é realizada de forma lógica, marcando o registro como excluído (`0x2A`), sem remover fisicamente os dados do arquivo, o que permite futuras recuperações ou reuso de espaço.
+
+Dada a necessidade de manter a integridade estrutural do `.DBF`, todas as operações realizadas sobre os registros são validadas antes de serem aplicadas. O `DBFRecordManagement` funciona em conjunto com `DBFFileDefinition` para garantir que as inserções respeitem a estrutura do arquivo e com `DBFValidation` para assegurar que todas as modificações estejam dentro das regras do formato `.DBF`.
+
+\subsubsection{Como Esse Contexto Será Implementado?}
+
+O `DBFRecordManagement` será modelado como um conjunto de operações sobre a estrutura já definida pelo `DBFFile`. Ele não modifica a estrutura dos campos (`DBFField`), mas permite manipular os registros (`DBFRecord`) de forma segura e eficiente.
+
+\textbf{Esse contexto se baseia nos seguintes princípios:}
+\begin{itemize}
+    \item Garantir que cada `DBFRecord` siga fielmente a estrutura dos campos (`DBFField`).
+    \item Manter a integridade e alinhamento dos registros no arquivo `.DBF`.
+    \item Controlar a remoção lógica (`0x2A`) e a recuperação de registros.
+    \item Assegurar que as operações de inserção e modificação respeitem os limites do formato `dBase III (0x03)`.
+\end{itemize}
+
+Para isso, o contexto opera diretamente sobre a `List<DBFRecord>` armazenada no `DBFFile`, garantindo que os registros sejam sempre gerenciados de acordo com as definições estabelecidas pelo `DBFFileDefinition`.
+
+\subsubsection{Organização do DBFRecordManagement}
+
+Esse contexto gerencia exclusivamente os registros (`DBFRecord`) de um `.DBF`. Ele \textbf{não altera a estrutura do arquivo} e \textbf{não modifica os campos (`DBFField`)}, garantindo que as operações realizadas sobre os registros sejam independentes da definição estrutural do arquivo.
+
+\textbf{Esse contexto se divide nas seguintes responsabilidades:}
+\begin{itemize}
+    \item \textbf{Inserção de registros:} Adicionar novos registros (`DBFRecord`) ao `.DBF`, garantindo que os valores respeitem os tipos de dados dos campos (`DBFField`).
+    \item \textbf{Edição de registros:} Modificar valores dentro de registros existentes, assegurando que as mudanças estejam dentro dos limites da estrutura do `.DBF`.
+    \item \textbf{Exclusão lógica de registros:} Remover registros por meio da marcação `0x2A`, sem excluir os dados fisicamente do arquivo.
+    \item \textbf{Recuperação de registros:} Reverter a exclusão lógica e restaurar registros previamente removidos.
+    \item \textbf{Consulta e filtragem de registros:} Permitir buscas dentro do `.DBF` com base em critérios específicos.
+    \item \textbf{Remoção permanente de registros excluídos:} Eliminar registros marcados como removidos (`0x2A`) e reorganizar o espaço disponível no `.DBF`.
+\end{itemize}
+
+\subsubsection{Quais São as Responsabilidades Deste Contexto?}
+
+\begin{itemize}
+    \item Garantir que todos os registros (`DBFRecord`) sigam a estrutura definida pelos campos (`DBFField`).
+    \item Manter a integridade dos registros dentro do `.DBF`.
+    \item Controlar o número total de registros (`recordCount`) no cabeçalho (`DBFHeader`).
+    \item Assegurar que as operações sobre registros não comprometam a compatibilidade do arquivo com sistemas externos.
+    \item Fornecer mecanismos seguros para recuperação e remoção definitiva de registros.
+\end{itemize}
+
+\subsubsection{O Que Esse Contexto NÃO Faz?}
+
+Embora o `DBFRecordManagement` seja essencial para a manipulação de registros dentro do `.DBF`, algumas responsabilidades são delegadas a outros contextos para garantir a modularidade do sistema:
+
+\textbf{Esse contexto não:}
+\begin{itemize}
+    \item Modifica a estrutura do `.DBF` (campos `DBFField`). Essa responsabilidade pertence ao `DBFFieldManagement`.
+    \item Garante a validade da estrutura do arquivo. Essa função é do `DBFValidation`.
+    \item Realiza a exportação do `.DBF` para um arquivo binário. A exportação é tratada pelo `DBFExport`.
+\end{itemize}
+
+\subsubsection{Relação do DBFRecordManagement com Outros Contextos}
+
+\textbf{Relação com `DBFFileDefinition`} \\
+Esse contexto depende da estrutura definida pelo `DBFFileDefinition` para garantir que as operações sobre registros sejam consistentes com a definição dos campos (`DBFField`). Ele não pode adicionar registros (`DBFRecord`) a um `.DBF` sem antes validar que a estrutura está correta.
+
+\textbf{Relação com `DBFFieldManagement`} \\
+Como a estrutura dos registros depende dos campos (`DBFField`), qualquer alteração na estrutura pode invalidar os registros existentes. Se um campo for modificado, todos os registros precisam ser removidos e recriados para manter a compatibilidade.
+
+\textbf{Relação com `DBFValidation`} \\
+Antes de realizar qualquer modificação nos registros (`DBFRecord`), esse contexto verifica a validade da estrutura do arquivo através do `DBFValidation`. Isso impede que registros sejam inseridos ou alterados de maneira incorreta.
+
+\textbf{Relação com `DBFExport`} \\
+Uma vez que os registros tenham sido gerenciados corretamente, o `DBFExport` é responsável por transformar essa estrutura interna em um arquivo `.DBF` binário válido para uso externo.
+
+
+\subsubsection{Scenario: Criar um novo DBFRecord com valores válidos}
+\textbf{Given} um `DBFFile` existente com pelo menos um `DBFField` definido \\
+\textbf{And} os valores a serem inseridos seguem a estrutura e os tipos de dados dos `DBFField` \\
+\textbf{When} o usuário solicita a criação de um novo `DBFRecord` \\
+\textbf{Then} o sistema deve iniciar um novo `DBFRecord` \\
+\textbf{And} para cada `DBFField` existente:
+\begin{itemize}
+    \item O sistema verifica se há um valor correspondente
+    \item O sistema valida se o tipo de dado está correto
+    \item O sistema adiciona o valor ao `DBFRecord`
+\end{itemize}
+\textbf{And} o sistema adiciona o `DBFRecord` à `List<DBFRecord>` do `DBFFile` \\
+\textbf{And} o sistema atualiza o `recordCount` no `DBFHeader` \\
+\textbf{And} o sistema retorna o `DBFRecord` criado
+
+\subsubsection{Scenario: Falha ao criar um DBFRecord com valores inválidos}
+\textbf{Given} um `DBFFile` com `DBFField` definidos \\
+\textbf{And} o usuário fornece um valor incompatível com o tipo de dado do `DBFField` \\
+\textbf{When} o sistema valida os valores inseridos \\
+\textbf{Then} o sistema detecta a incompatibilidade de tipo \\
+\textbf{And} o sistema exibe um erro `"Erro: O campo 'Idade' espera um valor numérico, mas recebeu uma string."` \\
+\textbf{And} o sistema não deve criar o `DBFRecord`
+
+\subsubsection{Scenario: Falha ao criar um DBFRecord que excede `recordSize`}
+\textbf{Given} um `DBFFile` onde a soma dos tamanhos dos campos (`DBFField.size`) já atinge o limite permitido \\
+\textbf{And} o usuário tenta adicionar um `DBFRecord` cujo tamanho total ultrapassa `recordSize` \\
+\textbf{When} o sistema calcula o tamanho total do registro \\
+\textbf{Then} o sistema detecta que o tamanho total excede o limite \\
+\textbf{And} o sistema exibe um erro `"Erro: O tamanho total dos registros excede o limite permitido pelo formato dBase III."` \\
+\textbf{And} o sistema não deve criar o `DBFRecord`
+
+\subsubsection{Scenario: Atualizar um DBFRecord com valores válidos}
+\textbf{Given} um `DBFFile` existente contendo pelo menos um `DBFRecord` \\
+\textbf{And} os novos valores seguem a estrutura e os tipos de dados dos `DBFField` \\
+\textbf{And} o `DBFRecord` alvo está presente na `List<DBFRecord>` \\
+\textbf{When} o usuário solicita a atualização do `DBFRecord` \\
+\textbf{Then} o sistema localiza o `DBFRecord` pelo identificador único \\
+\textbf{And} para cada `DBFField` no `DBFRecord`:
+\begin{itemize}
+    \item O sistema verifica se há um novo valor correspondente
+    \item O sistema valida se o novo valor está correto para o tipo do `DBFField`
+    \item O sistema substitui o valor antigo pelo novo valor
+\end{itemize}
+\textbf{And} o sistema atualiza a `lastUpdated` no `DBFHeader` \\
+\textbf{And} o sistema retorna o `DBFRecord` atualizado
+
+\subsubsection{Scenario: Falha ao atualizar um DBFRecord inexistente}
+\textbf{Given} um `DBFFile` que não contém o `DBFRecord` especificado \\
+\textbf{When} o usuário solicita a atualização do `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: O registro especificado não existe no arquivo DBF."` \\
+\textbf{And} o sistema não realiza nenhuma modificação
+
+\subsubsection{Scenario: Falha ao atualizar um DBFRecord com valores inválidos}
+\textbf{Given} um `DBFFile` contendo um `DBFRecord` \\
+\textbf{And} o usuário fornece um valor incompatível com o tipo do `DBFField` \\
+\textbf{When} o sistema valida os novos valores \\
+\textbf{Then} o sistema detecta a incompatibilidade de tipo \\
+\textbf{And} o sistema exibe um erro `"Erro: O campo 'DataNascimento' espera uma data no formato YYYYMMDD, mas recebeu um valor inválido."` \\
+\textbf{And} o sistema não atualiza o `DBFRecord`
+
+\subsubsection{Scenario: Falha ao atualizar um DBFRecord que ultrapassa `recordSize`}
+\textbf{Given} um `DBFFile` onde os `DBFRecord` seguem um tamanho fixo definido por `recordSize` \\
+\textbf{And} o usuário tenta atualizar um `DBFRecord` com valores que excedem esse limite \\
+\textbf{When} o sistema calcula o novo tamanho do `DBFRecord` \\
+\textbf{Then} o sistema detecta que o novo tamanho excede `recordSize` \\
+\textbf{And} o sistema exibe um erro `"Erro: O tamanho total do registro atualizado excede o limite permitido pelo formato dBase III."` \\
+\textbf{And} o sistema não realiza nenhuma atualização
+
+\subsubsection{Scenario: Remover um DBFRecord existente}
+\textbf{Given} um `DBFFile` contendo pelo menos um `DBFRecord` \\
+\textbf{And} o `DBFRecord` alvo está presente na `List<DBFRecord>` \\
+\textbf{When} o usuário solicita a remoção do `DBFRecord` \\
+\textbf{Then} o sistema localiza o `DBFRecord` pelo identificador único \\
+\textbf{And} o sistema marca o `DBFRecord` como excluído (`isDeleted = true`) \\
+\textbf{And} o sistema atualiza `recordCount` no `DBFHeader` \\
+\textbf{And} o sistema atualiza `lastUpdated` no `DBFHeader` \\
+\textbf{And} o sistema retorna o `DBFFile` atualizado
+
+\subsubsection{Scenario: Falha ao remover um DBFRecord inexistente}
+\textbf{Given} um `DBFFile` que não contém o `DBFRecord` especificado \\
+\textbf{When} o usuário solicita a remoção do `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: O registro especificado não existe no arquivo DBF."` \\
+\textbf{And} o sistema não realiza nenhuma modificação
+
+\subsubsection{Scenario: Falha ao remover um DBFRecord em um DBF vazio}
+\textbf{Given} um `DBFFile` sem registros (`List<DBFRecord>` vazia) \\
+\textbf{When} o usuário solicita a remoção de um `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: Não há registros disponíveis para remoção."` \\
+\textbf{And} o sistema não realiza nenhuma modificação
+
+\subsubsection{Scenario: Remover todos os registros de um DBFFile}
+\textbf{Given} um `DBFFile` contendo múltiplos `DBFRecord` \\
+\textbf{When} o usuário solicita a remoção de todos os registros \\
+\textbf{Then} o sistema percorre a `List<DBFRecord>` e marca todos como excluídos (`isDeleted = true`) \\
+\textbf{And} o sistema redefine `recordCount = 0` no `DBFHeader` \\
+\textbf{And} o sistema atualiza `lastUpdated` no `DBFHeader` \\
+\textbf{And} o sistema retorna o `DBFFile` atualizado
+
+\subsubsection{Scenario: Buscar um DBFRecord existente pelo identificador}
+\textbf{Given} um `DBFFile` contendo pelo menos um `DBFRecord` \\
+\textbf{And} o `DBFRecord` alvo está presente na `List<DBFRecord>` \\
+\textbf{When} o usuário solicita a busca pelo identificador único do `DBFRecord` \\
+\textbf{Then} o sistema percorre a `List<DBFRecord>` e localiza o `DBFRecord` correspondente \\
+\textbf{And} o sistema retorna o `DBFRecord` com seus valores
+
+\subsubsection{Scenario: Falha ao buscar um DBFRecord inexistente}
+\textbf{Given} um `DBFFile` que não contém o `DBFRecord` especificado \\
+\textbf{When} o usuário solicita a busca pelo identificador do `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: O registro especificado não existe no arquivo DBF."` \\
+\textbf{And} o sistema não retorna nenhum dado
+
+\subsubsection{Scenario: Buscar um DBFRecord marcado como excluído}
+\textbf{Given} um `DBFFile` contendo um `DBFRecord` com `isDeleted = true` \\
+\textbf{When} o usuário solicita a busca pelo identificador do `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: O registro especificado foi excluído e não pode ser acessado."` \\
+\textbf{And} o sistema não retorna nenhum dado
+
+\subsubsection{Scenario: Buscar todos os DBFRecords de um DBFFile}
+\textbf{Given} um `DBFFile` contendo múltiplos `DBFRecord` \\
+\textbf{When} o usuário solicita a busca de todos os registros \\
+\textbf{Then} o sistema retorna uma `List<DBFRecord>` contendo todos os registros não excluídos \\
+\textbf{And} o sistema ignora os `DBFRecord` onde `isDeleted = true`
+
+\subsubsection{Scenario: Falha ao buscar registros em um DBFFile vazio}
+\textbf{Given} um `DBFFile` sem registros (`List<DBFRecord>` vazia) \\
+\textbf{When} o usuário solicita a busca de todos os registros \\
+\textbf{Then} o sistema exibe um erro `"Erro: Não há registros disponíveis para consulta."` \\
+\textbf{And} o sistema não retorna nenhum dado
+
+\subsubsection{Scenario: Restaurar um DBFRecord excluído}
+\textbf{Given} um `DBFFile` contendo um `DBFRecord` marcado como excluído (`isDeleted = true`) \\
+\textbf{When} o usuário solicita a restauração do `DBFRecord` \\
+\textbf{Then} o sistema redefine `isDeleted = false` no `DBFRecord` \\
+\textbf{And} o sistema atualiza o `lastUpdated` do `DBFHeader` com a data atual \\
+\textbf{And} o sistema confirma a restauração com sucesso
+
+\subsubsection{Scenario: Falha ao restaurar um DBFRecord inexistente}
+\textbf{Given} um `DBFFile` sem o `DBFRecord` especificado \\
+\textbf{When} o usuário solicita a restauração do `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: O registro especificado não existe no arquivo DBF."` \\
+\textbf{And} o sistema não realiza nenhuma restauração
+
+\subsubsection{Scenario: Falha ao restaurar um DBFRecord que não está excluído}
+\textbf{Given} um `DBFFile` contendo um `DBFRecord` com `isDeleted = false` \\
+\textbf{When} o usuário solicita a restauração do `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: O registro não está marcado como excluído."` \\
+\textbf{And} o sistema não realiza nenhuma restauração
+
+
+\subsubsection{Scenario: Falha ao restaurar registros quando o DBFFile está vazio}
+\textbf{Given} um `DBFFile` sem nenhum `DBFRecord` armazenado \\
+\textbf{When} o usuário solicita a restauração de um `DBFRecord` \\
+\textbf{Then} o sistema exibe um erro `"Erro: Não há registros excluídos no arquivo DBF para serem restaurados."` \\
+\textbf{And} o sistema não realiza nenhuma restauração \\ 
+\textbf{Given} um `DBFFile` contendo um `DBFRecord` válido \\
+\textbf{And} o `DBFRecord` alvo está presente na `List<DBFRecord>` \\
+\textbf{And} os novos valores seguem a estrutura definida em `List<DBFField>` \\
+\textbf{When} o usuário solicita a atualização do `DBFRecord` com novos valores \\
+\textbf{Then} o sistema valida que os valores são compatíveis com os tipos definidos em `DBFField` \\
+\textbf{And} o sistema atualiza os valores do `DBFRecord` \\
+\textbf{And} o `lastUpdated` do `DBFHeader` é atualizado com a data atual \\
+\textbf{And} o sistema confirma a atualização com sucesso

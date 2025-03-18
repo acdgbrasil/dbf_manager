@@ -1,0 +1,187 @@
+\begin{titlepage}
+    \section{Contexto do Sistema}
+      Com o avanço das tecnologias de banco de dados e a ampla adoção de soluções baseadas em SQL e NoSQL, espera-se uma transição natural para formatos mais flexíveis e escaláveis. No entanto, muitos sistemas governamentais e corporativos ainda utilizam arquivos .DBF (dBase File) como meio principal para armazenamento e transferência de dados. Essa permanência se deve à forte dependência de sistemas legados, à complexidade da migração e à necessidade de interoperabilidade com aplicações antigas.
+      Embora o formato .DBF seja uma tecnologia consolidada, sua utilização moderna apresenta desafios, principalmente na conversão e manipulação eficiente desses arquivos. A ausência de ferramentas atualizadas que permitam uma transição fluida para estruturas de dados contemporâneas impacta diretamente a eficiência dos sistemas que ainda dependem desse formato.
+    \subsubsection{O que é um arquivo .DBF?}
+    Criado na década de 1980 pelo software dBase, o .DBF foi amplamente adotado em aplicações que necessitavam de armazenamento tabular simples e acessível. Seu design permitiu que diversos sistemas gerenciassem registros estruturados de forma local, sem a necessidade de servidores de banco de dados.
+    A compatibilidade do .DBF com tecnologias como FoxPro, Clipper, Visual dBase e xBase reforçou sua adoção em ambientes corporativos e governamentais. Sua estrutura de tabelas organizadas em colunas, associada à facilidade de acesso direto aos registros, tornou-o uma opção atrativa para sistemas de médio e grande porte durante o final do século XX.
+    \subsubsection{Características do Formato .DBF}
+    \begin{itemize}
+        \item \textbf{Cabeçalho}: Define os campos da tabela (nome, tipo de dado, tamanho).
+        \item \textbf{Registros}: Contêm os dados armazenados, com tamanho fixo por linha.
+        \item \textbf{Marcação de exclusão}: Permite que registros sejam "deletados" sem removê-los fisicamente, o que acelera operações.
+    \end{itemize}
+    Essa arquitetura, embora eficiente para aplicações standalone, apresenta limitações significativas em operações de manipulação em larga escala, dificultando a integração com sistemas modernos que dependem de bancos de dados relacionais ou não relacionais.
+
+    \subsubsection{Exemplos de Sistemas Governamentais que Utilizam .DBF}
+    Apesar das limitações, o .DBF continua sendo um componente essencial em diversas infraestruturas governamentais brasileiras, como:
+    \begin{itemize}
+        \item \textbf{SINAN (Sistema de Informação de Agravos de Notificação)}: Utilizado pelo Ministério da Saúde do Brasil para armazenar informações sobre doenças e agravos de notificação compulsória.
+        \item \textbf{SIA/SUS (Sistema de Informações Ambulatoriais do SUS)}: Responsável pelo processamento de atendimentos ambulatoriais em unidades de saúde pública.
+        \item \textbf{SEFIP (Sistema Empresa de Recolhimento do FGTS e Informações à Previdência Social)} Utilizado para envio de dados de FGTS e Previdência Social.
+        \item \textbf{SPED (Sistema Público de Escrituração Digital)}: Algumas aplicações dentro do SPED Fiscal ainda permitem exportações em .DBF.
+        \item \textbf{Sistemas Cartorários e Notariais}: Muitos cartórios brasileiros utilizam .DBF para armazenar registros de imóveis, certidões e transações. Sistemas de Prefeituras e Estados – Diversos sistemas de arrecadação tributária, controle de IPTU, alvarás e cadastros imobiliários operam com .DBF.
+    \end{itemize}
+    A permanência desses sistemas reflete a necessidade de ferramentas que facilitem a interoperabilidade entre .DBF e outras estruturas de dados mais flexíveis, como JSON, CSV e bancos relacionais.
+    \subsubsection{Por Que o Governo Brasileiro Ainda Utiliza .DBF?}
+    A continuidade do uso do .DBF no Brasil não é apenas uma questão de preferência tecnológica, mas sim uma consequência de fatores estruturais, incluindo:
+    \begin{itemize}
+        \item \textbf{Histórico de uso e legado}:
+              \subitem - Muitas aplicações desenvolvidas entre os anos 1980 e 2000 foram construídas utilizando dBase, Clipper, FoxPro, entre outras tecnologias baseadas em .DBF.
+              \subitem - Esses sistemas continuam sendo utilizados, pois a migração para bancos modernos é custosa e complexa.
+        \item \textbf{Facilidade de Integração}:
+              \subitem - O formato .DBF é simples de manipular e pode ser lido por diversas linguagens de programação sem necessidade de drivers complexos.
+              \subitem - O formato .DBF é simples de manipular e pode ser lido por diversas linguagens de programação sem necessidade de drivers complexos.
+        \item \textbf{Baixo Custo e Independência de Banco de Dados}:
+              \subitem - .DBF pode ser acessado sem um banco de dados SQL ou servidor dedicado, o que reduz os custos operacionais.
+              \subitem - O governo brasileiro utiliza o formato .DBF em diversos sistemas para facilitar o armazenamento e a transmissão de dados entre diferentes órgãos e softwares.
+    \end{itemize}
+
+    Assim querendo resolver o problema de: Esses sistemas muitas vezes não possuem
+    ferramentas modernas para manipulação de .DBF, tornando difícil a conversão
+    para formatos mais flexíveis, como JSON e CSV. A ENVOLVE está propondo a a
+    criação de uma biblioteca moderna e performática para conversão e manipulação
+    de arquivos .DBF, utilizando Bun para maximizar a velocidade e eficiência na
+    manipulação de arquivos binários. Diferente das soluções disponíveis, este
+    sistema será modular e escalável, seguindo Domain-Driven Design (DDD) para
+    garantir baixo acoplamento e facilidade de manutenção.
+
+    \subsubsection{Motivação para o Uso de JavaScript/Bun}
+    Embora linguagens como Go e Rust ofereçam alto desempenho, optamos por
+    JavaScript/Bun devido a fatores críticos como ecossistema, suporte à web e
+    acessibilidade para desenvolvedores. Além disso, consideramos Deno, mas optamos
+    por Bun por razões específicas detalhadas a seguir.
+    \begin{itemize}
+        \item \textbf{Falta de Bibliotecas Atualizadas para .DBF em Node.js/Deno}:
+              \subitem - \textbf{Node.js}: As bibliotecas existentes para manipulação de .DBF estão desatualizadas ou limitadas.
+              \subitem - \textbf{Deno}: Embora existam bibliotecas como deno-dbf-file, elas ainda estão em estágios iniciais de desenvolvimento e podem não oferecer todas as funcionalidades necessárias.
+        \item \textbf{Popularidade do JavaScript em APIs e Soluções Web}:
+              \subitem - JavaScript é amplamente utilizado no desenvolvimento web, tornando a biblioteca mais acessível para a comunidade de desenvolvedores.
+              \subitem - A ENVOLVE já possui experiência com JavaScript e TypeScript, o que acelera o desenvolvimento e a manutenção do sistema. 
+        \item \textbf{Ecossistema de Módulos e Ferramentas}:
+              \subitem - possui um ecossistema robusto com inúmeras bibliotecas e frameworks, facilitando a integração e expansão da funcionalidade.
+              \subitem - Ferramentas como Bun permitem a criação de aplicações performáticas e escaláveis, garantindo alta eficiência no processamento de arquivos .DBF.
+              \subitem - Bun oferece desempenho superior ao Node.js e comparável ao Deno, sendo adequado para operações de E/S intensivas.
+              \subitem - A biblioteca será otimizada para manipulação de arquivos .DBF, garantindo alta velocidade e eficiência na conversão e leitura de dados.
+        \item  \textbf{Manutenção e Facilidade de Distribuição}:
+              \subitem - permite distribuição simplificada através do NPM, facilitando a instalação e atualização da biblioteca.
+    \end{itemize}
+
+    \subsubsection{Justificativa para a Escolha de Bun}
+    \begin{itemize}
+        \item Há uma lacuna no ecossistema JavaScript para bibliotecas modernas de
+              manipulação de .DBF.
+        \item JavaScript é amplamente utilizado, tornando a biblioteca mais acessível e
+              incentivando a adoção.
+        \item JavaScript possui um ecossistema rico que facilita a integração e expansão da
+              funcionalidade.
+        \item Bun oferece desempenho suficiente para as necessidades do projeto, equilibrando
+              velocidade e facilidade de desenvolvimento.
+        \item A distribuição via NPM/Bun simplifica a instalação e atualização da biblioteca.
+        \item  Bun é mais rápido que Node.js e oferece desempenho comparável ao Deno.
+        \item Essencial para manipulação eficiente de arquivos .DBF.
+        \item oferece uma experiência de desenvolvimento simplificada, acelerando o processo
+              de criação e manutenção da biblioteca.
+        \item Desenvolvedores familiarizados com JavaScript podem adotar Bun rapidamente,
+              reduzindo o tempo de adaptação.
+    \end{itemize}
+
+    \subsection{Arquitetura do Sistema}
+    \textbf{Visão Geral da Arquitetura}:
+    A biblioteca seguirá uma arquitetura modular, baseada em Domain-Driven Design (DDD) e organizada em três camadas principais:
+    \begin{itemize}
+        \item \textbf{Camada de Domínio (CORE DOMAIN) "core/"}: Contém as regras de negócio, garantindo a estrutura correta do .DBF.
+        \item \textbf{Camada de Aplicação ((Application Layer) "application/")}: Orquestra os casos de uso e a conversão de formatos.
+        \item \textbf{Camada de Infraestrutura (Infrastructure Layer): "infrastructure/"}: Responsável por persistência, manipulação de arquivos e parsers, mantendo-se desacoplada para permitir substituições futuras.
+    \end{itemize}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{image/dbf_converter_arquitetura.png}
+        \caption{Arquitetura do Sistema}
+        \label{fig:minha_imagem}
+    \end{figure}
+
+    \subsection{CORE DOMAIN - DBFStructure}
+    O domínio `DBFStructure` é responsável por definir, validar e gerenciar
+    arquivos no formato `.DBF`, um dos formatos de banco de dados mais utilizados
+    historicamente. Apesar de ser um padrão antigo, ele ainda é amplamente adotado
+    em sistemas governamentais, softwares contábeis e aplicações legadas devido à
+    sua simplicidade, compatibilidade e estrutura binária eficiente. No entanto,
+    essa mesma rigidez estrutural impõe desafios na manipulação desses arquivos,
+    exigindo um modelo bem definido para garantir consistência, compatibilidade e
+    confiabilidade ao armazenar e recuperar informações.
+
+    O `DBFStructure` foi projetado para oferecer uma solução modular e extensível
+    para manipulação de arquivos `.DBF`, permitindo que diferentes aplicações
+    trabalhem com esses dados sem precisar lidar diretamente com a complexidade do
+    formato. Esse domínio é responsável por definir a estrutura inicial dos
+    arquivos, gerenciar a manipulação de registros e validar a integridade
+    estrutural, garantindo que todas as operações respeitem as regras do `.DBF` e
+    evitem corrupção dos dados.
+
+    Para garantir a separação de responsabilidades, o `DBFStructure` foi organizado
+    em \textbf{Bounded Contexts}, cada um com um papel específico na manipulação dos
+    arquivos `.DBF`. Esses contextos garantem que operações distintas, como
+    definição da estrutura, manipulação de registros e validação, sejam tratadas de
+    forma isolada, minimizando dependências e permitindo evolução independente de
+    cada módulo.
+
+    Os principais `Bounded Contexts` do domínio `DBFStructure` são:
+
+    \begin{itemize}
+        \item \textbf{DBFFileDefinition}: Responsável pela criação e definição da estrutura do `.DBF`, incluindo seu cabeçalho (`DBFHeader`), campos (`DBFField`) e regras de estruturação. Esse contexto também gerencia a adição, alteração e remoção de campos dentro do arquivo, garantindo que qualquer modificação estrutural seja validada antes de ser aplicada. \textbf{Qualquer modificação na estrutura (`DBFField`) resultará na exclusão automática de todos os registros (`DBFRecord`) existentes no arquivo.}
+
+        \item \textbf{DBFRecordManagement}: Responsável pelo gerenciamento dos registros (`DBFRecord`) dentro de um arquivo `.DBF`, incluindo operações de inserção, remoção e edição de registros. \textbf{Esse contexto depende da estrutura definida pelo `DBFFileDefinition` e só pode operar sobre arquivos `.DBF` previamente validados.}
+
+        \item \textbf{DBFValidation}: Responsável pela validação estrutural e de dados dos arquivos `.DBF`, garantindo que qualquer modificação realizada dentro do `DBFFileDefinition` ou `DBFRecordManagement` esteja dentro das regras do formato `.DBF`, assegurando consistência e integridade.
+
+        \item \textbf{DBFExport}: Responsável pela conversão da estrutura interna do `.DBF` para um arquivo binário `.DBF` válido, garantindo que os dados e a estrutura sejam corretamente escritos em disco, permitindo que o arquivo seja utilizado por sistemas externos.
+    \end{itemize}
+
+    A modularidade do `DBFStructure` permite que cada um desses contextos evolua
+    independentemente, possibilitando melhorias contínuas sem impactar
+    funcionalidades já existentes. Além disso, essa abordagem facilita a integração
+    com infraestruturas externas, como conversores de formatos (`JSON`, `CSV`, `SQL
+    Dump`), sistemas de banco de dados relacionais e APIs que precisem manipular
+    `.DBF`.
+
+    O diferencial do `DBFStructure` não está apenas em fornecer um modelo robusto
+    para lidar com `.DBF`, mas também em permitir sua evolução gradual. O design
+    modular do domínio possibilita suporte a novos formatos, versões mais recentes
+    do `.DBF`, e melhorias na validação, tornando os arquivos `.DBF` mais
+    acessíveis para integração com sistemas modernos sem perda de confiabilidade ou
+    compatibilidade.
+
+    \subsubsection{Objetivos}
+    \begin{itemize}
+        \item Definir a Estrutura de um Arquivo `.DBF`, garantindo que cabeçalhos, campos e
+              registros sigam as regras do formato.
+        \item Gerenciar Registros (`DBFRecord`) do `.DBF`, permitindo inserção, edição e
+              remoção sem comprometer a estrutura.
+        \item Modificar a estrutura do `.DBF` (`DBFField`), permitindo a adição e remoção de
+              colunas. \textbf{Qualquer alteração na estrutura resulta na exclusão automática de
+              todos os registros (`DBFRecord`).}
+        \item Validar a Estrutura do `.DBF` para garantir integridade e compatibilidade com
+              sistemas que utilizam esse formato.
+        \item Assegurar Consistência e Compatibilidade do Arquivo, respeitando os limites de
+              tamanho, alinhamento e regras de versionamento.
+        \item Facilitar a Integração com Outras Tecnologias, permitindo exportação e
+              conversão para formatos modernos.
+    \end{itemize}
+
+    \subsubsection{Futuros Objetivos}
+    \begin{itemize}
+        \item Suporte a Novos Formatos de Exportação (`XML`, `Parquet`, `YAML`).
+        \item Suporte a Campos do Tipo Memo (`M`), utilizados em versões mais recentes do
+              `.DBF` para armazenamento de textos longos.
+        \item Suporte a Diferentes Versões do `.DBF` (dBase IV (0x04), dBase V (0x05), FoxPro
+              (0x30)).
+        \item Melhorias na Validação e Correção Automática de Estruturas `.DBF` corrompidas.
+        \item Integração com Banco de Dados Relacionais, permitindo conversões diretas entre
+              `.DBF` e `PostgreSQL`, `MySQL`, `SQLite` e outros.
+    \end{itemize}
+
+    \input{bouded_contexts/dbf_structure/bouded_context.tex}
+\end{titlepage}
+

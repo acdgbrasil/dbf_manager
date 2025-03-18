@@ -1,0 +1,52 @@
+class Game <<Entidade>> {
+  - id: UUID <<Identificador �nico da partida>>
+  - game_mode: GameMode <<Modo de jogo (Casual, Ranqueado, Battle Royale)>>
+  - settings: GameSettings <<Configura��es da partida>>
+  - state: GameState <<Estado atual da partida>>
+  - players: GamePlayer<<Jogadores participantes da partida>>
+  - rounds: Round<<Rodadas jogadas na partida>>
+  - ranking: GameRanking <<Ranking final da partida>>
+  - creation_date: Date <<Data e hora de cria��o da partida>>
+  - start_date: Date <<Data e hora de in�cio da partida>>
+  - end_date: Date <<Data e hora de t�rmino da partida>>
+}
+
+class Room <<Entidade>> {
+  - id: UUID <<Identificador �nico da sala>>
+  - name: string <<Nome da sala>>
+  - owner_id: UUID <<ID do jogador que criou a sala>>
+  - players: Player<<Jogadores na sala>>
+  - game_settings: GameSettings <<Configura��es da partida para a sala>>
+  - room_type: RoomType <<Tipo de sala (P�blica, Privada)>>
+  - max_players: int <<N�mero m�ximo de jogadores permitido>>
+  - invitation_code: string <<C�digo de convite (para salas privadas)>>
+  - status: RoomStatus <<Estado atual da sala>>
+}
+
+class GamePlayer <<Entidade>> {
+  - player_id: UUID <<ID do jogador na partida>>
+  - score: int <<Pontua��o do jogador na partida>>
+  - answers: Answer<<Respostas do jogador na partida>>
+  - lives: int <<Vidas restantes do jogador (Battle Royale)>>
+  - average_answer_time: Time <<Tempo m�dio de resposta>>
+  - state: GamePlayerState <<Estado do jogador na partida>>
+}
+
+class Player <<Entidade>> {
+  - id: UUID <<Identificador �nico do jogador>>
+  - name: string <<Nome do jogador>>
+}
+
+class Round <<Entidade>> {
+  - id: UUID <<Identificador �nico da rodada>>
+  - number: int <<N�mero da rodada>>
+  - song: Song <<M�sica tocada na rodada>>
+  - answers: Answer<<Respostas dadas na rodada>>
+}
+
+class Answer <<Entidade>> {
+  - id: UUID <<Identificador �nico da resposta>>
+  - content: string <<Conte�do da resposta>>
+  - time: int <<Tempo gasto para responder>>
+  - correct: boolean <<Se a resposta est� correta>>
+}

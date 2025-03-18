@@ -1,0 +1,88 @@
+\subsubsection{Casos de Uso: CreateDBFFileDBaseIII}
+
+\textbf{Responsabilidades}: \\
+\textbf{Criação da estrutura e arquivo .DBF}: Este caso de uso cria a estrutura inicial de um arquivo .DBF exclusivamente para a versão dBase III (0x03). \\
+\textbf{Garantia e segurança na criação do arquivo .DBF}: Ele garante que todas as regras do dBase III sejam seguidas, evitando erros estruturais.\\
+\textbf{Responsabilidades específicas}: Esse caso de uso não modifica arquivos existentes e não exporta o arquivo .DBF para disco.\\
+\textbf{Tipo de retorno pronto para outros contextos}: Ele retorna um objeto DBFFile pronto para ser validado e exportado.\\\\
+
+\textbf{Ator Principal do Caso de Uso}: Sistema OU Usuário\\\\
+\textbf{Objetivo}: Criar um arquivo .DBF válido para dBase III, garantindo que o cabeçalho (DBFHeader) e os campos (List<DBFField>) sejam corretamente configurados.\\\\
+
+\textbf{Pré-requisitos}: Ter as informações em JSON para poder criar o .DBF\\\\
+
+\textbf{Fluxo Principal}:
+\begin{enumerate}
+    \item O sistema recebe as informações do JSON.
+    \item O sistema cria uma List<DBFField> vazia.
+    \item O sistema começa a criação dos DBFField, processando cada entrada do JSON:
+    \begin{enumerate}
+        \item Cria um novo DBFField.
+        \item Define o nome do campo como String, validando que ele não excede 10 caracteres.
+        \item Escolhe o tipo do dado pelo enum \{C, N, F, L, D\}.
+        \item Calcula o tamanho do campo em bytes conforme as regras do .DBF.
+        \item Caso o tipo seja 'N' (numérico), define o número de casas decimais.
+        \item Adiciona falso no campo isRemoved.
+        \item Adiciona o novo DBFField à List<DBFField>.
+        \item Repete esse processo para cada campo listado no JSON.
+    \end{enumerate}
+    \item O sistema cria um DBFHeader:
+    \begin{enumerate}
+        \item Adiciona no DBFHeader a versão do DBF, para esse caso de uso, o enum da BASE\_3 (0x03).
+        \item Adiciona a data atual no campo lastUpdated.
+        \item Adiciona o número de campos da List<DBFField> no campo recordCount.
+        \item Calcula em bytes a posição do primeiro registro e adiciona no campo firstRecordOffset.
+    \end{enumerate}
+    \item O sistema cria um DBFFile, adicionando nele:
+    \begin{enumerate}
+        \item O DBFHeader recém-criado no campo header.
+        \item A lista List<DBFField> criada no campo fields.
+        \item Calcula o tamanho fixo do maior registro em bytes e adiciona no campo recordSize.
+    \end{enumerate}
+    \item O sistema chama a função DBFValidation para garantir que o DBFFile está correto.
+    \item O sistema retorna o aggregate DBFFile pronto para ser exportado.
+\end{enumerate}
+
+\textbf{1 - Caso de Falha: Nenhum campo informado}:
+\begin{enumerate}
+    \item O usuário solicita a criação do .DBF sem fornecer nenhum campo.
+    \item O sistema detecta que a lista de campos está vazia.
+    \item O sistema exibe um erro: "Erro: É necessário pelo menos um campo para criar um arquivo .DBF dBase III."
+    \item O sistema interrompe a criação do .DBF.
+\end{enumerate}
+
+\textbf{2 - Caso de Falha: Nome do campo excede 10 caracteres}:
+\begin{enumerate}
+    \item O usuário fornece um campo chamado "DescricaoCompleta" (15 caracteres).
+    \item O sistema verifica os nomes dos campos.
+    \item O sistema detecta que "DescricaoCompleta" ultrapassa o limite de 10 caracteres permitido pelo .DBF.
+    \item O sistema exibe um erro: "Erro: O nome do campo 'DescricaoCompleta' excede o limite de 10 caracteres permitido no dBase III."
+    \item O sistema interrompe a criação do .DBF.
+\end{enumerate}
+
+\textbf{3 - Caso de Falha: Nome do campo duplicado}:
+\begin{enumerate}
+    \item O usuário fornece dois campos chamados "Nome" e "Nome".
+    \item O sistema verifica os nomes dos campos.
+    \item O sistema detecta que "Nome" já foi utilizado.
+    \item O sistema exibe um erro: "Erro: O nome do campo 'Nome' já foi utilizado."
+    \item O sistema interrompe a criação do .DBF.
+\end{enumerate}
+
+\textbf{4 - Caso de Falha: Tipo de campo inválido para dBase III}:
+\begin{enumerate}
+    \item O usuário fornece um campo com tipo "M" (Memo, suportado apenas em dBase IV e FoxPro).
+    \item O sistema verifica os tipos permitidos (C, N, D, L, F).
+    \item O sistema detecta que "M" não é um tipo válido em dBase III.
+    \item O sistema exibe um erro: "Erro: O tipo de campo 'M' não é suportado pelo formato dBase III."
+    \item O sistema solicita que o usuário escolha um tipo válido (C, N, D, L, F).
+\end{enumerate}
+
+\textbf{5 - Caso de Falha: Tamanho total do registro excede 254 bytes}:
+\begin{enumerate}
+    \item O usuário fornece uma lista de campos que, somados, ultrapassam 254 bytes.
+    \item O sistema calcula o tamanho total dos registros.
+    \item O sistema detecta que o tamanho total do registro excede 254 bytes.
+    \item O sistema exibe um erro: "Erro: O tamanho total dos campos excede o limite de 254 bytes permitido pelo formato dBase III."
+    \item O sistema interrompe a criação do .DBF.
+\end{enumerate}

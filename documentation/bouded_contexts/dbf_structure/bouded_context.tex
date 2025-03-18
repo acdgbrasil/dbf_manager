@@ -1,0 +1,30 @@
+\begin{titlepage}
+    \subsection{Bounded Context}
+
+    \begin{enumerate}
+        \item   DBFFileDefinition: Define a estrutura inicial do arquivo .DBF, incluindo o
+              cabeçalho (DBFHeader) e os campos (DBFField). Este contexto é responsável pela
+              criação da estrutura base do arquivo e não gerencia a adição, remoção ou
+              alteração de campos.
+        \item   DBFFieldManagement: Gerencia a adição, alteração e remoção de campos (DBFField)
+              dentro do arquivo .DBF. Assegura que qualquer modificação estrutural seja
+              validada e aplicada corretamente. Qualquer modificação na estrutura de campos
+              resulta na remoção lógica dos registros (DBFRecord).
+        \item   DBFRecordManagement: Gerencia a manipulação dos registros (DBFRecord) dentro do
+              arquivo .DBF, permitindo a inserção, edição, remoção lógica e recuperação de
+              registros. Opera sobre arquivos .DBF com estrutura previamente validada.
+        \item   DBFValidation: Valida a estrutura e os registros do .DBF. Garante que qualquer
+              modificação nos contextos DBFFileDefinition, DBFFieldManagement e
+              DBFRecordManagement esteja em conformidade com as regras do formato .DBF.
+        \item   DBFExport: Converte a estrutura interna do .DBF para um arquivo binário .DBF
+              válido e o armazena, garantindo a correta escrita dos dados e da estrutura para
+              uso externo.
+        \item   DBFImport: Importa dados de fontes externas (e.g., CSV, JSON) para a estrutura
+              interna do .DBF. Garante que os dados importados estejam em conformidade com a
+              estrutura definida e cria os registros (DBFRecord) correspondentes.
+    \end{enumerate}
+
+    \input{bouded_contexts/dbf_structure/bounded_context_component/dbf_file_definition.tex}
+    \input{bouded_contexts/dbf_structure/bounded_context_component/dbf_field_definition.tex}
+    \input{bouded_contexts/dbf_structure/bounded_context_component/dbf_record_definition.tex}
+\end{titlepage}
