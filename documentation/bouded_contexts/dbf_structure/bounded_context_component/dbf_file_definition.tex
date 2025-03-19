@@ -146,11 +146,73 @@ O DBFFileDefinition tem como tarefas principais a criação da estrutura inicial
     \item \textbf{create}: Método responsável por criar a instancia do \textit{\textbf{DBFField}}, Ou seja ele cria um BDFFiel válido para ser colocado dentro da lista de \textit{\textbf{DBFField}}.
     \item \textbf{validateNameField}: Método responsável por validar o nome do campo, o nome do campo não pode ser vazio, e nem pode ter mais de 10 caracteres. 
     \item \textbf{calculateSize}: Calcula o tamanho do campo em bytes, baseado no tipo de dado. Caso não contenha já registros, se sim pegue o maior registro deste campo e coloque como o tamanho.
+    \item \textbf{validateDecimal}: Calcula se o valor de decimais é um numero inteiro válido, seguindo a formula: \\
+    \subitem \( I = P - (D + 1) \)  
+    \subitem Onde:  
+    \begin{itemize}
+        \item \( I \) é o número máximo de dígitos inteiros.  
+        \item \( P \) é o tamanho total do campo (quantidade máxima de caracteres permitidos).  
+        \item \( D \) é o número de casas decimais.  
+    \end{itemize}
+    
+    \subitem \textbf{Exemplos práticos: } 
+    \begin{itemize}
+        \item Suponha que \( P = 6 \) e \( D = 2 \).  
+        \item Aplicando a fórmula:  
+        \[
+        I = 6 - (2 + 1) = 3
+        \]
+        \item Isso significa que o número pode ter, no máximo, \textbf{3 dígitos inteiros}.  
+    \end{itemize}
+    
+    \subitem \textbf{Explicação detalhada:}  
+    \begin{itemize}
+        \item O valor de \( P = 6 \) indica que o campo pode armazenar \textbf{até 6 bytes} no total.  
+        \item Além disso, o próprio \textbf{ponto decimal (`.`) ocupa 1 byte}, representado em binário como \textit{\textbf{0x2E}}.  
+        \item Isso deixa \textbf{3 bytes disponíveis} para os dígitos inteiros.  
+        \item Como cada número inteiro ocupa \textbf{1 byte por caractere}, o maior número que pode ser armazenado é \textbf{999}.  
+        \item O número \textbf{1000} não cabe, pois precisaria de \textbf{4 bytes para os dígitos inteiros}, excedendo o limite permitido.  
+    \end{itemize}
 \end{itemize}
+\begin{figure}[H]
+    \begin{equation}
+        I \leq P - (D + 1), \quad {se } D > 0
+        \end{equation}
+        
+        \begin{equation}
+        I \leq P, \quad {se } D = 0
+    \end{equation}
+    \caption{Fórmula para cálculo do número máximo de dígitos inteiros}
+\end{figure}
 
 
+\subsubsection{Informações Gerais do DBFRecord}
+\textbf{Nome do dado}: \textit{\textbf{DBFRecord}} \\  
+\textbf{Tipo do dado}: Entidade \\  
+\textbf{Descrição do dado}: Cada \textit{\textbf{DBFRecord}} representa uma linha de dados dentro do \textit{\textbf{.bdf}}, contendo valores para cada \textit{\textbf{DBFField}} definido. Os registros devem seguir estritamente o formato dos campos \textit{\textbf{DBFField}} definidos na estrutura do \textit{\textbf{.bdf}} \\  
 
-
+\begin{table}[H]
+    \centering
+    \textbf{Atributos da entidade do DBFRecord}
+    \begin{tabular}{|p{0.2\textwidth} | p{0.3\textwidth} | p{0.5\textwidth}|}
+        \hline
+        \textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\
+        \hline
+        value & Map<string,any> & Estrutura de chave/valor que armazena os dados de um registro, onde a chave é o nome do campo (DBFField.name) e o valor é o dado armazenado. \\
+        \hline
+        isDeleted & boolean & Indica se o registro foi logicamente marcado como excluído (0x2A). \\
+        \hline
+    \end{tabular}
+    \caption{Atributos do DBFRecord e suas descrições}
+    \label{tab:tabela_atributos_dbfrecord}
+\end{table}
+\textbf{TODO: ESCREVER SOBRE OS METODOS DO DBFRecord, ESCRITO EM 19/03/2025}
+\subsubsection{Metodos que estão dentro do DBFRecord}
+\begin{itemize}
+    \item \textbf{create}: Método responsável por criar a instancia do DBFFile, A implementação não amarra como será feita, caso queira usar um factory ou um builder, a seu criterio. Sempre uma nova instancia for criada, lembre-se que os campos fields e records devem ser listas vazias. O DBFHeader não pode está vazia.
+    \item \textbf{calculateRecordSize}: Método responsável por calcular o tamanho da soma de todos os campos: \textit{\textbf{DBFField}} em bytes.
+    \item \textbf{validateHeaderSize}: Método responsável por validar o tamanho do cabeçalho, o tamanho do cabeçalho deve ser múltiplo de 32 bytes. Ou seja, caso o tamanho do cabeçalho em bytes for um numero que não é multiplo de 32, o sistema tem que adicionar a quantidade de bytes com zeros até que o tamanho seja múltiplo de 32.
+\end{itemize}
 
 
 \subsubsection{Informações Gerais do DBFHeader}

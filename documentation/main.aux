@@ -35,61 +35,66 @@
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Todos os valores possiveis que podem ser escolhidos para o campo type do \textit  {\textbf  {DBFField}}}}{6}{table.3}\protected@file@percent }
 \newlabel{tab:tabela_enumeracao_atributo_type}{{3}{6}{Todos os valores possiveis que podem ser escolhidos para o campo type do \textit {\textbf {DBFField}}}{table.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.6}Metodos que estão dentro do DBFFile}{6}{subsubsection.1.6.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.7}Informações Gerais do DBFHeader}{6}{subsubsection.1.6.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.8}Atributos do DBFHeader}{6}{subsubsection.1.6.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.9}Regras de negócio do DBFHeader}{7}{subsubsection.1.6.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.7}Diagrama de Classes do DBFFileDefinition}{8}{subsection.1.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Diagrama de Classes do Bounded Context: DBFFileDefinition}}{8}{figure.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.8}BDD do caso de uso: CreateDBFFileBaseV3}{8}{subsection.1.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.1}Feature: Criar um objeto DBFFile válido}{8}{subsubsection.1.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.2}Background}{9}{subsubsection.1.8.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.3}Scenario: Criar um objeto DBFFile com campos e registros válidos}{9}{subsubsection.1.8.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.4}Scenario: Criar um DBFFile sem registros iniciais}{9}{subsubsection.1.8.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.5}Scenario: Falha ao criar o DBFHeader}{9}{subsubsection.1.8.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.6}Scenario: Falha ao inicializar a lista de campos (`DBFField`)}{10}{subsubsection.1.8.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.7}Scenario: Falha ao inicializar a lista de registros (`DBFRecord`)}{10}{subsubsection.1.8.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.8}Scenario: Falha ao definir a versão do `.DBF`}{10}{subsubsection.1.8.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.9}Scenario: Falha ao definir a data da última modificação}{10}{subsubsection.1.8.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.10}Scenario: Falha ao calcular o offset do primeiro registro}{11}{subsubsection.1.8.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.9}Definição do BOUNDED CONTEXT: DBFFieldManagement}{11}{subsection.1.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.10}Como Esse Contexto Será Implementado?}{11}{subsection.1.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.11}Responsabilidades do DBFFieldManagement}{12}{subsection.1.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.12}Tipos de Dados no DBFFieldManagement}{12}{subsection.1.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.12.1}DBFFile (Aggregate Root)}{12}{subsubsection.1.12.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.12.2}DBFField}{13}{subsubsection.1.12.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.13}Relação do DBFFieldManagement com Outros Contextos}{13}{subsection.1.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.1}DBFFileDefinition}{13}{subsubsection.1.13.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.2}DBFRecordManagement}{13}{subsubsection.1.13.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.3}DBFValidation}{14}{subsubsection.1.13.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.4}DBFExport}{14}{subsubsection.1.13.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.14}Conclusão}{14}{subsection.1.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.14.1}Scenario: Adicionar um novo campo (`DBFField`) ao `.DBF`}{14}{subsubsection.1.14.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.14.2}Scenario: Modificar um campo (`DBFField`) existente}{15}{subsubsection.1.14.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.14.3}Scenario: Remover um campo (`DBFField`) do `.DBF`}{16}{subsubsection.1.14.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.15}Definição do BOUNDED CONTEXT: DBFRecordManagement}{17}{subsection.1.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.1}Como Esse Contexto Será Implementado?}{17}{subsubsection.1.15.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.2}Organização do DBFRecordManagement}{18}{subsubsection.1.15.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.3}Quais São as Responsabilidades Deste Contexto?}{18}{subsubsection.1.15.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.4}O Que Esse Contexto NÃO Faz?}{19}{subsubsection.1.15.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.5}Relação do DBFRecordManagement com Outros Contextos}{19}{subsubsection.1.15.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.6}Scenario: Criar um novo DBFRecord com valores válidos}{19}{subsubsection.1.15.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.7}Scenario: Falha ao criar um DBFRecord com valores inválidos}{20}{subsubsection.1.15.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.8}Scenario: Falha ao criar um DBFRecord que excede `recordSize`}{20}{subsubsection.1.15.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.9}Scenario: Atualizar um DBFRecord com valores válidos}{20}{subsubsection.1.15.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.10}Scenario: Falha ao atualizar um DBFRecord inexistente}{21}{subsubsection.1.15.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.11}Scenario: Falha ao atualizar um DBFRecord com valores inválidos}{21}{subsubsection.1.15.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.12}Scenario: Falha ao atualizar um DBFRecord que ultrapassa `recordSize`}{21}{subsubsection.1.15.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.13}Scenario: Remover um DBFRecord existente}{22}{subsubsection.1.15.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.14}Scenario: Falha ao remover um DBFRecord inexistente}{22}{subsubsection.1.15.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.15}Scenario: Falha ao remover um DBFRecord em um DBF vazio}{22}{subsubsection.1.15.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.16}Scenario: Remover todos os registros de um DBFFile}{22}{subsubsection.1.15.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.17}Scenario: Buscar um DBFRecord existente pelo identificador}{22}{subsubsection.1.15.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.18}Scenario: Falha ao buscar um DBFRecord inexistente}{23}{subsubsection.1.15.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.19}Scenario: Buscar um DBFRecord marcado como excluído}{23}{subsubsection.1.15.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.20}Scenario: Buscar todos os DBFRecords de um DBFFile}{23}{subsubsection.1.15.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.21}Scenario: Falha ao buscar registros em um DBFFile vazio}{23}{subsubsection.1.15.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.22}Scenario: Restaurar um DBFRecord excluído}{23}{subsubsection.1.15.22}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.23}Scenario: Falha ao restaurar um DBFRecord inexistente}{24}{subsubsection.1.15.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.24}Scenario: Falha ao restaurar um DBFRecord que não está excluído}{24}{subsubsection.1.15.24}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.25}Scenario: Falha ao restaurar registros quando o DBFFile está vazio}{24}{subsubsection.1.15.25}\protected@file@percent }
-\gdef \@abspage@last{36}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Fórmula para cálculo do número máximo de dígitos inteiros}}{7}{figure.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.7}Informações Gerais do DBFRecord}{7}{subsubsection.1.6.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Atributos do DBFRecord e suas descrições}}{8}{table.4}\protected@file@percent }
+\newlabel{tab:tabela_atributos_dbfrecord}{{4}{8}{Atributos do DBFRecord e suas descrições}{table.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.8}Metodos que estão dentro do DBFRecord}{8}{subsubsection.1.6.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.9}Informações Gerais do DBFHeader}{8}{subsubsection.1.6.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.10}Atributos do DBFHeader}{8}{subsubsection.1.6.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.11}Regras de negócio do DBFHeader}{9}{subsubsection.1.6.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7}Diagrama de Classes do DBFFileDefinition}{10}{subsection.1.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de Classes do Bounded Context: DBFFileDefinition}}{10}{figure.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.8}BDD do caso de uso: CreateDBFFileBaseV3}{10}{subsection.1.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.1}Feature: Criar um objeto DBFFile válido}{10}{subsubsection.1.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.2}Background}{11}{subsubsection.1.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.3}Scenario: Criar um objeto DBFFile com campos e registros válidos}{11}{subsubsection.1.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.4}Scenario: Criar um DBFFile sem registros iniciais}{11}{subsubsection.1.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.5}Scenario: Falha ao criar o DBFHeader}{11}{subsubsection.1.8.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.6}Scenario: Falha ao inicializar a lista de campos (`DBFField`)}{12}{subsubsection.1.8.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.7}Scenario: Falha ao inicializar a lista de registros (`DBFRecord`)}{12}{subsubsection.1.8.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.8}Scenario: Falha ao definir a versão do `.DBF`}{12}{subsubsection.1.8.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.9}Scenario: Falha ao definir a data da última modificação}{12}{subsubsection.1.8.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.8.10}Scenario: Falha ao calcular o offset do primeiro registro}{13}{subsubsection.1.8.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.9}Definição do BOUNDED CONTEXT: DBFFieldManagement}{13}{subsection.1.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.10}Como Esse Contexto Será Implementado?}{13}{subsection.1.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.11}Responsabilidades do DBFFieldManagement}{14}{subsection.1.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.12}Tipos de Dados no DBFFieldManagement}{14}{subsection.1.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.12.1}DBFFile (Aggregate Root)}{14}{subsubsection.1.12.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.12.2}DBFField}{15}{subsubsection.1.12.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.13}Relação do DBFFieldManagement com Outros Contextos}{15}{subsection.1.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.1}DBFFileDefinition}{15}{subsubsection.1.13.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.2}DBFRecordManagement}{15}{subsubsection.1.13.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.3}DBFValidation}{16}{subsubsection.1.13.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.13.4}DBFExport}{16}{subsubsection.1.13.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.14}Conclusão}{16}{subsection.1.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.14.1}Scenario: Adicionar um novo campo (`DBFField`) ao `.DBF`}{16}{subsubsection.1.14.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.14.2}Scenario: Modificar um campo (`DBFField`) existente}{17}{subsubsection.1.14.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.14.3}Scenario: Remover um campo (`DBFField`) do `.DBF`}{18}{subsubsection.1.14.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.15}Definição do BOUNDED CONTEXT: DBFRecordManagement}{19}{subsection.1.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.1}Como Esse Contexto Será Implementado?}{19}{subsubsection.1.15.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.2}Organização do DBFRecordManagement}{20}{subsubsection.1.15.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.3}Quais São as Responsabilidades Deste Contexto?}{20}{subsubsection.1.15.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.4}O Que Esse Contexto NÃO Faz?}{21}{subsubsection.1.15.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.5}Relação do DBFRecordManagement com Outros Contextos}{21}{subsubsection.1.15.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.6}Scenario: Criar um novo DBFRecord com valores válidos}{21}{subsubsection.1.15.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.7}Scenario: Falha ao criar um DBFRecord com valores inválidos}{22}{subsubsection.1.15.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.8}Scenario: Falha ao criar um DBFRecord que excede `recordSize`}{22}{subsubsection.1.15.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.9}Scenario: Atualizar um DBFRecord com valores válidos}{22}{subsubsection.1.15.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.10}Scenario: Falha ao atualizar um DBFRecord inexistente}{23}{subsubsection.1.15.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.11}Scenario: Falha ao atualizar um DBFRecord com valores inválidos}{23}{subsubsection.1.15.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.12}Scenario: Falha ao atualizar um DBFRecord que ultrapassa `recordSize`}{23}{subsubsection.1.15.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.13}Scenario: Remover um DBFRecord existente}{24}{subsubsection.1.15.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.14}Scenario: Falha ao remover um DBFRecord inexistente}{24}{subsubsection.1.15.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.15}Scenario: Falha ao remover um DBFRecord em um DBF vazio}{24}{subsubsection.1.15.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.16}Scenario: Remover todos os registros de um DBFFile}{24}{subsubsection.1.15.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.17}Scenario: Buscar um DBFRecord existente pelo identificador}{24}{subsubsection.1.15.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.18}Scenario: Falha ao buscar um DBFRecord inexistente}{25}{subsubsection.1.15.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.19}Scenario: Buscar um DBFRecord marcado como excluído}{25}{subsubsection.1.15.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.20}Scenario: Buscar todos os DBFRecords de um DBFFile}{25}{subsubsection.1.15.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.21}Scenario: Falha ao buscar registros em um DBFFile vazio}{25}{subsubsection.1.15.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.22}Scenario: Restaurar um DBFRecord excluído}{25}{subsubsection.1.15.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.23}Scenario: Falha ao restaurar um DBFRecord inexistente}{26}{subsubsection.1.15.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.24}Scenario: Falha ao restaurar um DBFRecord que não está excluído}{26}{subsubsection.1.15.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.15.25}Scenario: Falha ao restaurar registros quando o DBFFile está vazio}{26}{subsubsection.1.15.25}\protected@file@percent }
+\gdef \@abspage@last{38}
