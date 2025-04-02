@@ -92,6 +92,8 @@ O DBFFileDefinition tem como tarefas principais a criação da estrutura inicial
     \item \textbf{create}: Método responsável por criar a instancia do DBFFile, A implementação não amarra como será feita, caso queira usar um factory ou um builder, a seu criterio. Sempre uma nova instancia for criada, lembre-se que os campos fields e records devem ser listas vazias. O DBFHeader não pode está vazia.
     \item \textbf{calculateRecordSize}: Método responsável por calcular o tamanho da soma de todos os campos: \textit{\textbf{DBFField}} em bytes.
     \item \textbf{validateHeaderSize}: Método responsável por validar o tamanho do cabeçalho, o tamanho do cabeçalho deve ser múltiplo de 32 bytes. Ou seja, caso o tamanho do cabeçalho em bytes for um numero que não é multiplo de 32, o sistema tem que adicionar a quantidade de bytes com zeros até que o tamanho seja múltiplo de 32.
+    \item \textbf{addDBFField}: Método responsável por adicionar um novo campo \textit{\textbf{DBFField}} à lista de campos do DBFFile. O campo deve ser validado antes de ser adicionado.
+    \item \textbf{addDBFRecord}: Método responsável por adicionar um novo registro \textit{\textbf{DBFRecord}} à lista de registros do DBFFile. O registro deve ser validado antes de ser adicionado.
 \end{itemize}
 
 \subsubsection{Informações Gerais do DBFField}
@@ -173,17 +175,18 @@ O DBFFileDefinition tem como tarefas principais a criação da estrutura inicial
         \item Como cada número inteiro ocupa \textbf{1 byte por caractere}, o maior número que pode ser armazenado é \textbf{999}.  
         \item O número \textbf{1000} não cabe, pois precisaria de \textbf{4 bytes para os dígitos inteiros}, excedendo o limite permitido.  
     \end{itemize}
-\end{itemize}
-\begin{figure}[H]
-    \begin{equation}
-        I \leq P - (D + 1), \quad {se } D > 0
-        \end{equation}
-        
+    \begin{figure}[H]
         \begin{equation}
-        I \leq P, \quad {se } D = 0
-    \end{equation}
-    \caption{Fórmula para cálculo do número máximo de dígitos inteiros}
-\end{figure}
+            I \leq P - (D + 1), \quad {se } D > 0
+            \end{equation}
+            
+            \begin{equation}
+            I \leq P, \quad {se } D = 0
+        \end{equation}
+        \caption{Fórmula para cálculo do número máximo de dígitos inteiros}
+    \end{figure}
+\end{itemize}
+
 
 
 \subsubsection{Informações Gerais do DBFRecord}
@@ -206,32 +209,74 @@ O DBFFileDefinition tem como tarefas principais a criação da estrutura inicial
     \caption{Atributos do DBFRecord e suas descrições}
     \label{tab:tabela_atributos_dbfrecord}
 \end{table}
-\textbf{TODO: ESCREVER SOBRE OS METODOS DO DBFRecord, ESCRITO EM 19/03/2025}
+
 \subsubsection{Metodos que estão dentro do DBFRecord}
 \begin{itemize}
-    \item \textbf{create}: Método responsável por criar a instancia do DBFFile, A implementação não amarra como será feita, caso queira usar um factory ou um builder, a seu criterio. Sempre uma nova instancia for criada, lembre-se que os campos fields e records devem ser listas vazias. O DBFHeader não pode está vazia.
-    \item \textbf{calculateRecordSize}: Método responsável por calcular o tamanho da soma de todos os campos: \textit{\textbf{DBFField}} em bytes.
-    \item \textbf{validateHeaderSize}: Método responsável por validar o tamanho do cabeçalho, o tamanho do cabeçalho deve ser múltiplo de 32 bytes. Ou seja, caso o tamanho do cabeçalho em bytes for um numero que não é multiplo de 32, o sistema tem que adicionar a quantidade de bytes com zeros até que o tamanho seja múltiplo de 32.
+    \item \textbf{create}: Metodo que cria um DBFRecord, ou seja ele cria uma instancia de \textit{\textbf{DBFRecord}} deixando pronto para ser inserido na lista de \textit{\textbf{DBFRecord}} dentro do \textit{\textbf{DBFFile}}.
+    \item \textbf{validateValue}: Método responsável por validar o valor do registro, verificando se ele está de acordo com o tipo e tamanho definido no \textit{\textbf{DBFField}} correspondente.
 \end{itemize}
-
 
 \subsubsection{Informações Gerais do DBFHeader}
 \textbf{Nome do dado}: \textit{\textbf{DBFHeader}} \\  
 \textbf{Tipo do dado}: Entidade \\  
-\textbf{Descrição do dado}: Cada DBFField representa um campo dentro do \textit{\textbf{.bdf}}, definindo nome, tipo, tamanho e alinhamento dos dados armazenados. \\  
+\textbf{Descrição do dado}: Cada \textit{\textbf{DBFHeader}} representa o cabeçalho de um arquivo \textit{\textbf{.dbf}}, contendo informações gerais sobre o arquivo como versão, data da última modificação, número total de registros e a posição do primeiro registro. Esses dados são fundamentais para interpretação correta do conteúdo do \textit{\textbf{.dbf}}. \\  
 
-\subsubsection{Atributos do DBFHeader}  
-\textbf{version: enum} - Versão do `.DBF`. (`0x03` para `dBase III`). \\  
-\textbf{lastUpdated: Date} - Data da última modificação do arquivo. \\  
-\textbf{recordCount: number} - Número total de registros armazenados (`DBFRecord`). \\  
-\textbf{firstRecordOffset: number} - Offset (posição em bytes) do primeiro registro dentro do arquivo. \\  
+\begin{table}[H]
+    \centering
+    \textbf{Atributos da entidade do DBFHeader}
+    \begin{tabular}{|p{0.2\textwidth} | p{0.3\textwidth} | p{0.5\textwidth}|}
+        \hline
+        \textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\
+        \hline
+        version & enum & Versão do arquivo `.dbf`. Geralmente `0x03`, que representa a versão dBase III. \\
+        \hline
+        lastUpdated & Date & Data da última modificação do arquivo. \\
+        \hline
+        recordCount & number & Quantidade total de registros armazenados no arquivo (`DBFRecord`). \\
+        \hline
+        firstRecordOffset & number & Offset (posição em bytes) do primeiro registro no arquivo. Deve ser múltiplo de 32. \\
+        \hline
+    \end{tabular}
+    \caption{Atributos do DBFHeader e suas descrições}
+    \label{tab:tabela_atributos_dbfheader}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \textbf{Versões conhecidas do formato .DBF}
+    \begin{tabular}{|p{0.2\textwidth} | p{0.2\textwidth} | p{0.6\textwidth}|}
+        \hline
+        \textbf{} & \textbf{Identificador} & \textbf{Descrição} \\
+        \hline
+        0x02 & FoxBASE & Versão antiga usada pelo FoxBASE. Compatível com dBase II. \\
+        \hline
+        0x03 & dBase III & Versão padrão mais comum, usada em muitos arquivos `.dbf`. Suporte a dados sem memo. \\
+        \hline
+        0x30 & Visual FoxPro & Arquivo Visual FoxPro sem campos `memo`. Suporta novos tipos de dados. \\
+        \hline
+        0x31 & Visual FoxPro + Memo & Igual ao 0x30, mas com suporte a campos `memo`. \\
+        \hline
+        0x83 & dBase III + Memo & Variante da versão dBase III que inclui suporte a campos `memo`. \\
+        \hline
+        0x8B & dBase IV + Memo & Versão do dBase IV com campos `memo`. \\
+        \hline
+        0xF5 & FoxPro + Memo & Versão do FoxPro com suporte a campos `memo`. \\
+        \hline
+        0xFB & FoxBASE + Memo & Versão do FoxBASE com campos `memo`. \\
+        \hline
+    \end{tabular}
+    \caption{Códigos de versão do `.dbf` e suas descrições}
+    \label{tab:versoes_dbf}
+\end{table}
+
 
 \subsubsection{Regras de negócio do DBFHeader}
-\begin{enumerate}
-    \item O offset do primeiro registro (`firstRecordOffset`) deve ser sempre múltiplo de 32 bytes.
-    \item A versão do `.DBF` deve ser compatível (`0x03` para `dBase III`).
-    \item O número de registros (`recordCount`) deve ser atualizado corretamente sempre que um registro (`DBFRecord`) for adicionado ou removido.
-\end{enumerate}
+\begin{itemize}
+    \item \textbf{Validação de offset}: O valor de \textit{firstRecordOffset} deve ser sempre múltiplo de 32 bytes.
+    \item \textbf{Compatibilidade de versão}: O valor de \textit{version} deve ser compatível com a versão esperada (`0x03` para dBase III).
+    \item \textbf{Atualização de registros}: O campo \textit{recordCount} deve ser atualizado corretamente sempre que um \textit{DBFRecord} for adicionado ou removido.
+\end{itemize}
+
 
 
 \subsection{Diagrama de Classes do DBFFileDefinition}

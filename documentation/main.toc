@@ -18,23 +18,22 @@
 \contentsline {subsubsection}{\numberline {1.6.3}Informações gerais do DBFFile}{4}{subsubsection.1.6.3}%
 \contentsline {subsubsection}{\numberline {1.6.4}Metodos que estão dentro do DBFFile}{4}{subsubsection.1.6.4}%
 \contentsline {subsubsection}{\numberline {1.6.5}Informações Gerais do DBFField}{5}{subsubsection.1.6.5}%
-\contentsline {subsubsection}{\numberline {1.6.6}Metodos que estão dentro do DBFFile}{6}{subsubsection.1.6.6}%
-\contentsline {subsubsection}{\numberline {1.6.7}Informações Gerais do DBFRecord}{7}{subsubsection.1.6.7}%
+\contentsline {subsubsection}{\numberline {1.6.6}Metodos que estão dentro do DBFFile}{7}{subsubsection.1.6.6}%
+\contentsline {subsubsection}{\numberline {1.6.7}Informações Gerais do DBFRecord}{8}{subsubsection.1.6.7}%
 \contentsline {subsubsection}{\numberline {1.6.8}Metodos que estão dentro do DBFRecord}{8}{subsubsection.1.6.8}%
 \contentsline {subsubsection}{\numberline {1.6.9}Informações Gerais do DBFHeader}{8}{subsubsection.1.6.9}%
-\contentsline {subsubsection}{\numberline {1.6.10}Atributos do DBFHeader}{8}{subsubsection.1.6.10}%
-\contentsline {subsubsection}{\numberline {1.6.11}Regras de negócio do DBFHeader}{9}{subsubsection.1.6.11}%
+\contentsline {subsubsection}{\numberline {1.6.10}Regras de negócio do DBFHeader}{10}{subsubsection.1.6.10}%
 \contentsline {subsection}{\numberline {1.7}Diagrama de Classes do DBFFileDefinition}{10}{subsection.1.7}%
-\contentsline {subsection}{\numberline {1.8}BDD do caso de uso: CreateDBFFileBaseV3}{10}{subsection.1.8}%
-\contentsline {subsubsection}{\numberline {1.8.1}Feature: Criar um objeto DBFFile válido}{10}{subsubsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8}BDD do caso de uso: CreateDBFFileBaseV3}{11}{subsection.1.8}%
+\contentsline {subsubsection}{\numberline {1.8.1}Feature: Criar um objeto DBFFile válido}{11}{subsubsection.1.8.1}%
 \contentsline {subsubsection}{\numberline {1.8.2}Background}{11}{subsubsection.1.8.2}%
 \contentsline {subsubsection}{\numberline {1.8.3}Scenario: Criar um objeto DBFFile com campos e registros válidos}{11}{subsubsection.1.8.3}%
 \contentsline {subsubsection}{\numberline {1.8.4}Scenario: Criar um DBFFile sem registros iniciais}{11}{subsubsection.1.8.4}%
-\contentsline {subsubsection}{\numberline {1.8.5}Scenario: Falha ao criar o DBFHeader}{11}{subsubsection.1.8.5}%
+\contentsline {subsubsection}{\numberline {1.8.5}Scenario: Falha ao criar o DBFHeader}{12}{subsubsection.1.8.5}%
 \contentsline {subsubsection}{\numberline {1.8.6}Scenario: Falha ao inicializar a lista de campos (`DBFField`)}{12}{subsubsection.1.8.6}%
 \contentsline {subsubsection}{\numberline {1.8.7}Scenario: Falha ao inicializar a lista de registros (`DBFRecord`)}{12}{subsubsection.1.8.7}%
 \contentsline {subsubsection}{\numberline {1.8.8}Scenario: Falha ao definir a versão do `.DBF`}{12}{subsubsection.1.8.8}%
-\contentsline {subsubsection}{\numberline {1.8.9}Scenario: Falha ao definir a data da última modificação}{12}{subsubsection.1.8.9}%
+\contentsline {subsubsection}{\numberline {1.8.9}Scenario: Falha ao definir a data da última modificação}{13}{subsubsection.1.8.9}%
 \contentsline {subsubsection}{\numberline {1.8.10}Scenario: Falha ao calcular o offset do primeiro registro}{13}{subsubsection.1.8.10}%
 \contentsline {subsection}{\numberline {1.9}Definição do BOUNDED CONTEXT: DBFFieldManagement}{13}{subsection.1.9}%
 \contentsline {subsection}{\numberline {1.10}Como Esse Contexto Será Implementado?}{13}{subsection.1.10}%
@@ -44,7 +43,7 @@
 \contentsline {subsubsection}{\numberline {1.12.2}DBFField}{15}{subsubsection.1.12.2}%
 \contentsline {subsection}{\numberline {1.13}Relação do DBFFieldManagement com Outros Contextos}{15}{subsection.1.13}%
 \contentsline {subsubsection}{\numberline {1.13.1}DBFFileDefinition}{15}{subsubsection.1.13.1}%
-\contentsline {subsubsection}{\numberline {1.13.2}DBFRecordManagement}{15}{subsubsection.1.13.2}%
+\contentsline {subsubsection}{\numberline {1.13.2}DBFRecordManagement}{16}{subsubsection.1.13.2}%
 \contentsline {subsubsection}{\numberline {1.13.3}DBFValidation}{16}{subsubsection.1.13.3}%
 \contentsline {subsubsection}{\numberline {1.13.4}DBFExport}{16}{subsubsection.1.13.4}%
 \contentsline {subsection}{\numberline {1.14}Conclusão}{16}{subsection.1.14}%
